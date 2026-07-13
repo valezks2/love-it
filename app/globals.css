@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --brand-red: #b72c0f;
 }
 
 @theme inline {
@@ -17,6 +18,11 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+::selection {
+  background-color: rgba(183, 44, 15, 0.15);
+  color: var(--brand-red);
 }
 
 body {

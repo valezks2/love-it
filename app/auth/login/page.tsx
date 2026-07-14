@@ -23,7 +23,15 @@ export default function Login() {
     }
 
     setErrors({});
-    console.log("Form submitted", { email, password });
+
+    const mockUser = {
+      email: email,
+      name: email.split("@")[0],
+    };
+
+    localStorage.setItem("user_session", JSON.stringify(mockUser));
+
+    window.location.href = "/";
   };
 
   return (

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import AddToCollectionModal from "@/components/ui/AddToCollectionModal";
 import Toast from "@/components/ui/Toast";
@@ -23,9 +23,26 @@ export default function HomePage() {
   const [likedItems, setLikedItems] = useState<number[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleOpenModal = (item: GalleryItem) => {
     setSelectedItem(item);
     setIsModalOpen(true);
+    setActiveDropdown(null);
   };
 
   const handleCloseModal = () => {
@@ -43,6 +60,16 @@ export default function HomePage() {
         return [...prev, id];
       }
     });
+  };
+
+  const toggleDropdown = (e: React.MouseEvent, id: number) => {
+    e.stopPropagation();
+    setActiveDropdown(activeDropdown === id ? null : id);
+  };
+
+  const handleDropdownAction = (action: string, itemTitle: string) => {
+    setActiveDropdown(null);
+    setToastMessage(`${action} "${itemTitle}" triggered successfully!`);
   };
 
   return (
@@ -80,11 +107,12 @@ export default function HomePage() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {items.map((item) => {
             const isLiked = likedItems.includes(item.id);
+            const isDropdownOpen = activeDropdown === item.id;
 
             return (
               <div
                 key={item.id}
-                className="group relative aspect-square w-full overflow-hidden bg-gray-50"
+                className="group relative aspect-square w-full overflow-hidden bg-gray-50 rounded-xl border border-gray-100"
               >
                 <Link href={`/post/${item.id}`} className="block h-full w-full">
                   <img
@@ -94,7 +122,13 @@ export default function HomePage() {
                   />
                 </Link>
 
-                <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-start justify-end p-4 gap-2 pointer-events-none">
+                <div
+                  className={`absolute inset-0 bg-black/25 transition-opacity duration-300 flex items-start justify-end p-4 gap-2 ${
+                    isDropdownOpen
+                      ? "opacity-100 pointer-events-auto"
+                      : "opacity-0 group-hover:opacity-100 pointer-events-none"
+                  }`}
+                >
                   <button
                     onClick={() => toggleLike(item.id)}
                     className={`flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all duration-200 hover:scale-110 active:scale-90 pointer-events-auto cursor-pointer ${
@@ -132,6 +166,65 @@ export default function HomePage() {
                       />
                     </svg>
                   </button>
+
+                  <div
+                    className="relative pointer-events-auto"
+                    ref={isDropdownOpen ? dropdownRef : null}
+                  >
+                    <button
+                      onClick={(e) => toggleDropdown(e, item.id)}
+                      className={`flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer ${
+                        isDropdownOpen
+                          ? "bg-[#b72c0f] text-white"
+                          : "bg-white/95 text-gray-700 hover:bg-white hover:text-[#b72c0f]"
+                      }`}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0?"
+                        />
+                      </svg>
+                    </button>
+
+                    {isDropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-36 origin-top-right rounded-xl bg-white p-1.5 shadow-lg border border-gray-100 ring-1 ring-black/5 z-30 animate-fadeIn">
+                        <button
+                          onClick={() =>
+                            handleDropdownAction("Download", item.alt)
+                          }
+                          className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                        >
+                          Download
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleDropdownAction("Share", item.alt)
+                          }
+                          className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                        >
+                          Share
+                        </button>
+                        <hr className="my-1 border-gray-100" />
+                        <button
+                          onClick={() =>
+                            handleDropdownAction("Report", item.alt)
+                          }
+                          className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                        >
+                          Report
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             );

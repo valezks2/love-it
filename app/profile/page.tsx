@@ -7,25 +7,25 @@ const collections = [
     id: 1,
     title: "Painting With Words",
     imageCount: 15,
-    images: ["/1.jpg", "/2.jpg", "/3.avif", "/4.jpg"],
+    images: ["/1.jpg", "/2.jpg", "/3.avif"],
   },
   {
     id: 2,
     title: "Nature at its best",
     imageCount: 32,
-    images: ["/1.jpg", "/2.jpg", "/3.avif", "/4.jpg"],
+    images: ["/1.jpg", "/2.jpg", "/3.avif"],
   },
   {
     id: 3,
     title: "Vibes & Aesthetics",
     imageCount: 8,
-    images: ["/1.jpg", "/2.jpg", "/3.avif", "/4.jpg"],
+    images: ["/1.jpg", "/2.jpg", "/3.avif"],
   },
   {
     id: 4,
     title: "Minimal Living",
     imageCount: 21,
-    images: ["/1.jpg", "/2.jpg", "/3.avif", "/4.jpg"],
+    images: ["/1.jpg", "/2.jpg", "/3.avif"],
   },
 ];
 
@@ -39,13 +39,13 @@ export default function ProfilePage() {
         <div className="absolute inset-0 bg-black/10 z-0" />
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-20">
-        <section className="relative z-10 flex flex-col items-center bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-gray-100">
-          <div className="flex flex-col items-center gap-5 text-center">
-            <div className="relative h-28 w-28 md:h-36 md:w-36 overflow-hidden rounded-full border-4 border-white shadow-xl">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section className="relative z-10 flex flex-col items-center text-center -mt-16 md:-mt-20">
+          <div className="flex flex-col items-center gap-5">
+            <div className="relative h-28 w-28 md:h-36 md:w-36 overflow-hidden rounded-full border-4 border-[#fafafa] shadow-xl bg-white">
               <Image
                 src="/hero.jpg"
-                alt="Mitt Ray"
+                alt="Valezka"
                 fill
                 className="object-cover"
                 priority
@@ -56,7 +56,11 @@ export default function ProfilePage() {
               <h1 className="text-3xl md:text-4xl font-extrabold tracking-tighter text-gray-950">
                 Valezka
               </h1>
-              <p className="mt-2 text-sm md:text-base font-medium text-gray-700 max-w-lg leading-relaxed">
+              <p className="text-sm font-semibold text-[#b72c0f] mt-0.5 tracking-tight">
+                @valezks2
+              </p>
+
+              <p className="mt-3 text-sm md:text-base font-medium text-gray-700 max-w-lg leading-relaxed">
                 Software engineer and hobbyist artist.
               </p>
 
@@ -85,12 +89,12 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <nav className="mt-8 border-t border-gray-100 pt-6 w-full flex justify-center">
+          <nav className="mt-8 border-t border-gray-200/60 pt-6 w-full flex justify-center">
             <ul className="flex items-center gap-1.5 text-xs md:text-sm font-semibold text-gray-600">
               <li>
                 <Link
                   href="/profile/dashboard"
-                  className="px-4 py-2 rounded-full transition-colors hover:bg-gray-100"
+                  className="px-4 py-2 rounded-full transition-colors hover:bg-gray-200/50"
                 >
                   Dashboard
                 </Link>
@@ -106,7 +110,7 @@ export default function ProfilePage() {
               <li>
                 <Link
                   href="/profile/hearts"
-                  className="px-4 py-2 rounded-full transition-colors hover:bg-gray-100"
+                  className="px-4 py-2 rounded-full transition-colors hover:bg-gray-200/50"
                 >
                   Hearts
                 </Link>
@@ -122,20 +126,35 @@ export default function ProfilePage() {
                 key={collection.id}
                 className="group relative overflow-hidden rounded-3xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer"
               >
-                <div className="aspect-[4/3] grid grid-cols-2 grid-rows-2 gap-0.5 p-0.5 bg-gray-50">
-                  {collection.images.map((img, index) => (
-                    <div
-                      key={index}
-                      className="relative w-full h-full overflow-hidden"
-                    >
+                <div className="aspect-[4/3] flex gap-1 p-1 bg-white">
+                  <div className="relative w-[66.6%] h-full overflow-hidden rounded-l-2xl">
+                    <Image
+                      src={collection.images[0]}
+                      alt={`${collection.title} grande`}
+                      fill
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
+                  </div>
+
+                  <div className="w-[33.3%] flex flex-col gap-1 h-full">
+                    <div className="relative flex-1 w-full overflow-hidden rounded-tr-2xl">
                       <Image
-                        src={img}
-                        alt={`${collection.title} detail ${index + 1}`}
+                        src={collection.images[1] || collection.images[0]}
+                        alt={`${collection.title} superior`}
                         fill
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                       />
                     </div>
-                  ))}
+
+                    <div className="relative flex-1 w-full overflow-hidden rounded-br-2xl">
+                      <Image
+                        src={collection.images[2] || collection.images[0]}
+                        alt={`${collection.title} inferior`}
+                        fill
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="p-5 border-t border-gray-100 flex items-center justify-between">

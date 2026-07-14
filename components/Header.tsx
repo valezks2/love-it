@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface MockUser {
   email: string;
@@ -8,13 +9,59 @@ interface MockUser {
   avatar?: string;
 }
 
+interface Notification {
+  id: string;
+  text: string;
+  time: string;
+  isRead: boolean;
+}
+
 export default function Header() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [user, setUser] = useState<MockUser | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: "1",
+      text: "Someone liked your photo",
+      time: "5m ago",
+      isRead: false,
+    },
+    {
+      id: "2",
+      text: "New comment on your rustic design",
+      time: "1h ago",
+      isRead: false,
+    },
+    {
+      id: "3",
+      text: "Your upload was processed successfully",
+      time: "1d ago",
+      isRead: true,
+    },
+  ]);
+
   const menuRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
+  const notificationsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (q) {
+      setSearchQuery(q);
+      setIsSearchOpen(true);
+    } else {
+      setSearchQuery("");
+      setIsSearchOpen(false);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const session = localStorage.getItem("user_session");
@@ -30,8 +77,18 @@ export default function Header() {
       if (menuRef.current && !menuRef.current.contains(target)) {
         setIsOpen(false);
       }
-      if (searchRef.current && !searchRef.current.contains(target)) {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(target) &&
+        !searchQuery
+      ) {
         setIsSearchOpen(false);
+      }
+      if (
+        notificationsRef.current &&
+        !notificationsRef.current.contains(target)
+      ) {
+        setIsNotificationsOpen(false);
       }
     }
 
@@ -39,7 +96,18 @@ export default function Header() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [searchQuery]);
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (searchQuery.trim()) {
+        router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      } else {
+        router.push("/search");
+      }
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("user_session");
@@ -47,6 +115,12 @@ export default function Header() {
     setIsOpen(false);
     window.location.href = "/";
   };
+
+  const markAllAsRead = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+  };
+
+  const hasUnread = notifications.some((n) => !n.isRead);
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between bg-white px-4 py-3 shadow-sm md:px-8">
@@ -72,10 +146,38 @@ export default function Header() {
                   <input
                     type="search"
                     autoFocus
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleSearch}
                     placeholder="Search images, styles..."
-                    className="w-full py-1.5 pl-4 pr-10 bg-gray-50 border border-[#b72c0f] rounded-full text-sm text-gray-700 focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#b72c0f]"
+                    className="w-full py-1.5 pl-4 pr-14 bg-gray-50 border border-[#b72c0f] rounded-full text-sm text-gray-700 focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#b72c0f] [&::-webkit-search-cancel-button]:appearance-none"
                   />
-                  <div className="absolute right-3 top-2 text-gray-400 pointer-events-none">
+
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-8 top-2.5 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors focus:outline-none"
+                      aria-label="Clear search"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="currentColor"
+                        className="w-4 h-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  )}
+
+                  <div className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -137,26 +239,91 @@ export default function Header() {
               </svg>
             </Link>
 
-            <button
-              className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors cursor-pointer flex-shrink-0"
-              aria-label="Notifications"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-5 h-5"
+            <div ref={notificationsRef} className="relative flex-shrink-0">
+              <button
+                onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors cursor-pointer focus:outline-none"
+                aria-label="Notifications"
+                aria-expanded={isNotificationsOpen}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                />
-              </svg>
-              <span className="absolute top-1.5 right-1.5 h-2.5 w-2.5 rounded-full bg-red-500"></span>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                  />
+                </svg>
+                {hasUnread && (
+                  <span className="absolute top-1.5 right-1.5 h-2.5 w-2.5 rounded-full bg-red-500"></span>
+                )}
+              </button>
+
+              {isNotificationsOpen && (
+                <div className="absolute right-0 top-full mt-2 w-80 rounded-lg border border-gray-200 bg-white shadow-lg z-50 overflow-hidden">
+                  <div className="flex items-center justify-between border-b border-gray-100 px-4 py-2.5">
+                    <h3 className="font-semibold text-sm text-gray-800">
+                      Notifications
+                    </h3>
+                    {hasUnread && (
+                      <button
+                        onClick={markAllAsRead}
+                        className="text-xs font-medium text-[#b72c0f] hover:underline cursor-pointer"
+                      >
+                        Mark all as read
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="max-h-72 overflow-y-auto">
+                    {notifications.length === 0 ? (
+                      <div className="px-4 py-6 text-center text-sm text-gray-500">
+                        You have no notifications
+                      </div>
+                    ) : (
+                      <div className="divide-y divide-gray-50">
+                        {notifications.map((notif) => (
+                          <div
+                            key={notif.id}
+                            className={`flex flex-col gap-1 p-3 text-left transition-colors hover:bg-gray-50 cursor-pointer ${
+                              !notif.isRead ? "bg-red-50/30" : ""
+                            }`}
+                          >
+                            <div className="flex items-start justify-between gap-2">
+                              <p className="text-sm text-gray-700">
+                                {notif.text}
+                              </p>
+                              {!notif.isRead && (
+                                <span className="h-1.5 w-1.5 mt-1.5 rounded-full bg-red-500 flex-shrink-0"></span>
+                              )}
+                            </div>
+                            <span className="text-[10px] text-gray-400">
+                              {notif.time}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="border-t border-gray-100 p-2 text-center">
+                    <Link
+                      href="/notifications"
+                      onClick={() => setIsNotificationsOpen(false)}
+                      className="block text-xs font-medium text-gray-500 hover:text-gray-800 py-1"
+                    >
+                      See all notifications
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <div
               ref={menuRef}

@@ -45,7 +45,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FCFCFC] font-sans antialiased py-10 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-white font-sans antialiased py-10 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-800 mb-8 pl-1">
           Settings

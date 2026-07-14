@@ -42,7 +42,7 @@ export default function UpdatePassword() {
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center bg-[#FCFCFC] px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-[80vh] items-center justify-center bg-white px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md bg-white rounded-3xl border border-gray-100 p-8 shadow-sm md:p-10">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">

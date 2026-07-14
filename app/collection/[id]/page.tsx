@@ -88,7 +88,7 @@ export default function CollectionDetailPage() {
 
   if (!collection) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 bg-[#FCFCFC]">
+      <div className="flex h-screen flex-col items-center justify-center gap-4 bg-white">
         <p className="text-gray-500 font-medium">Collection not found</p>
         <button
           onClick={() => router.back()}
@@ -143,7 +143,7 @@ export default function CollectionDetailPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FCFCFC] font-sans antialiased text-gray-800 pb-16 relative">
+    <main className="min-h-screen bg-white font-sans antialiased text-gray-800 pb-16 relative">
       <section
         className="relative h-[35vh] min-h-[240px] w-full bg-cover bg-center flex items-end p-6 md:p-10"
         style={{ backgroundImage: `url('${collection.bannerImage}')` }}

@@ -110,7 +110,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FCFCFC] font-sans antialiased relative">
+    <main className="min-h-screen bg-white font-sans antialiased relative">
       <section
         className="relative flex h-[50vh] min-h-[350px] items-center justify-center bg-cover bg-center text-white"
         style={{ backgroundImage: "url('/hero.jpg')" }}

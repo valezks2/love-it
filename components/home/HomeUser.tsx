@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import AddToCollectionModal from "@/components/ui/AddToCollectionModal";
 import Toast from "@/components/ui/Toast";
 
@@ -9,6 +10,40 @@ interface GalleryItem {
   src: string;
   alt: string;
 }
+
+interface CollectionItem {
+  id: number;
+  title: string;
+  imageCount: number;
+  images: string[];
+}
+
+const collectionsData: CollectionItem[] = [
+  {
+    id: 1,
+    title: "Painting With Words",
+    imageCount: 15,
+    images: ["/1.jpg", "/2.jpg", "/3.avif"],
+  },
+  {
+    id: 2,
+    title: "Nature at its best",
+    imageCount: 32,
+    images: ["/1.jpg", "/2.jpg", "/3.avif"],
+  },
+  {
+    id: 3,
+    title: "Vibes & Aesthetics",
+    imageCount: 8,
+    images: ["/1.jpg", "/2.jpg", "/3.avif"],
+  },
+  {
+    id: 4,
+    title: "Minimal Living",
+    imageCount: 21,
+    images: ["/1.jpg", "/2.jpg", "/3.avif"],
+  },
+];
 
 export default function HomeUser() {
   const baseItems: GalleryItem[] = [
@@ -24,6 +59,10 @@ export default function HomeUser() {
         ...item,
         id: rowIndex * baseItems.length + itemIndex + 1,
       })),
+  );
+
+  const [activeTab, setActiveTab] = useState<"photos" | "collections">(
+    "photos",
   );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -214,34 +253,135 @@ export default function HomeUser() {
   );
 
   return (
-    <main className="min-h-screen bg-[#FCFCFC] font-sans antialiased relative">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-14">
-        <section>
-          <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
-            <h2 className="text-xl font-bold tracking-tight text-gray-800 md:text-2xl">
-              Top Today Images
-            </h2>
+    <main className="min-h-screen bg-white font-sans antialiased relative">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mb-10 border-b border-gray-200">
+          <div className="flex gap-8 justify-center sm:justify-start">
+            <button
+              onClick={() => setActiveTab("photos")}
+              className={`pb-4 text-base font-bold transition-all border-b-2 cursor-pointer ${
+                activeTab === "photos"
+                  ? "border-[#b72c0f] text-[#b72c0f]"
+                  : "border-transparent text-gray-500 hover:text-gray-800"
+              }`}
+            >
+              Photos
+            </button>
+            <button
+              onClick={() => setActiveTab("collections")}
+              className={`pb-4 text-base font-bold transition-all border-b-2 cursor-pointer ${
+                activeTab === "collections"
+                  ? "border-[#b72c0f] text-[#b72c0f]"
+                  : "border-transparent text-gray-500 hover:text-gray-800"
+              }`}
+            >
+              Collections
+            </button>
           </div>
-          {renderGrid(items, "top")}
-        </section>
+        </div>
 
-        <section>
-          <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
-            <h2 className="text-xl font-bold tracking-tight text-gray-800 md:text-2xl">
-              Following Feed
-            </h2>
-          </div>
-          {renderGrid(items, "feed")}
-        </section>
+        {activeTab === "photos" ? (
+          <div className="space-y-14">
+            <section>
+              <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
+                <h2 className="text-xl font-bold tracking-tight text-gray-800 md:text-2xl">
+                  Top Today Images
+                </h2>
+              </div>
+              {renderGrid(items, "top")}
+            </section>
 
-        <section>
-          <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
-            <h2 className="text-xl font-bold tracking-tight text-gray-800 md:text-2xl">
-              Favorite Tags
-            </h2>
+            <section>
+              <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
+                <h2 className="text-xl font-bold tracking-tight text-gray-800 md:text-2xl">
+                  Following
+                </h2>
+              </div>
+              {renderGrid(items, "feed")}
+            </section>
+
+            <section>
+              <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
+                <h2 className="text-xl font-bold tracking-tight text-gray-800 md:text-2xl">
+                  Favorite Tags
+                </h2>
+              </div>
+              {renderGrid([...items].reverse(), "tags")}
+            </section>
           </div>
-          {renderGrid([...items].reverse(), "tags")}
-        </section>
+        ) : (
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {collectionsData.map((collection) => (
+              <div
+                key={collection.id}
+                className="group relative overflow-hidden rounded-3xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer"
+              >
+                <div className="aspect-[4/3] flex gap-1 p-1 bg-white">
+                  <div className="relative w-[66.6%] h-full overflow-hidden rounded-l-2xl">
+                    <Image
+                      src={collection.images[0]}
+                      alt={`${collection.title} large`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
+                  </div>
+
+                  <div className="w-[33.3%] flex flex-col gap-1 h-full">
+                    <div className="relative flex-1 w-full overflow-hidden rounded-tr-2xl">
+                      <Image
+                        src={collection.images[1] || collection.images[0]}
+                        alt={`${collection.title} top`}
+                        fill
+                        sizes="(max-width: 768px) 33vw, 15vw"
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      />
+                    </div>
+
+                    <div className="relative flex-1 w-full overflow-hidden rounded-br-2xl">
+                      <Image
+                        src={collection.images[2] || collection.images[0]}
+                        alt={`${collection.title} bottom`}
+                        fill
+                        sizes="(max-width: 768px) 33vw, 15vw"
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-5 border-t border-gray-100 flex items-center justify-between">
+                  <div className="flex-1">
+                    <h3 className="text-base font-semibold tracking-tight text-gray-800 transition-colors group-hover:text-[#b72c0f]">
+                      {collection.title}
+                    </h3>
+                    <p className="mt-1 text-xs text-gray-500 font-medium">
+                      {collection.imageCount} images
+                    </p>
+                  </div>
+                  <Link href={`/collection/${collection.id}`}>
+                    <button className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition-all hover:bg-[#b72c0f]/10 hover:text-[#b72c0f] cursor-pointer">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                        />
+                      </svg>
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {isModalOpen && selectedItem && (

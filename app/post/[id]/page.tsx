@@ -1,7 +1,7 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Toast from "@/components/ui/Toast";
 
 const ITEMS_DB = [
@@ -48,7 +48,24 @@ export default function PostDetailPage() {
   const { id } = useParams();
 
   const [isLiked, setIsLiked] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const item = ITEMS_DB.find((img) => img.id === Number(id));
 
@@ -75,6 +92,20 @@ export default function PostDetailPage() {
       }
       return !prev;
     });
+  };
+
+  const handleDropdownAction = (action: string) => {
+    setIsDropdownOpen(false);
+    setToastMessage(null);
+    setTimeout(() => {
+      if (action === "Download") {
+        setToastMessage("Image downloaded successfully");
+      } else if (action === "Share") {
+        setToastMessage("Link shared successfully");
+      } else if (action === "Report") {
+        setToastMessage("Image reported successfully");
+      }
+    }, 50);
   };
 
   return (
@@ -110,22 +141,52 @@ export default function PostDetailPage() {
 
         <div className="relative border-b border-gray-100 px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-6 text-gray-500">
-            <button className="hover:text-gray-800 cursor-pointer">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-6 h-6"
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="hover:text-gray-800 cursor-pointer flex items-center justify-center h-6 w-6"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0z"
+                  />
+                </svg>
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute left-0 mt-2 w-40 rounded-xl bg-white shadow-lg border border-gray-100 py-1 z-30 animate-fadeIn">
+                  <button
+                    onClick={() => handleDropdownAction("Download")}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-medium"
+                  >
+                    Download
+                  </button>
+                  <button
+                    onClick={() => handleDropdownAction("Share")}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-medium"
+                  >
+                    Share link
+                  </button>
+                  <hr className="border-gray-100 my-1" />
+                  <button
+                    onClick={() => handleDropdownAction("Report")}
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium"
+                  >
+                    Report post
+                  </button>
+                </div>
+              )}
+            </div>
+
             <button className="hover:text-gray-800 cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -196,8 +257,15 @@ export default function PostDetailPage() {
             </div>
           </div>
 
-          <button className="rounded-md bg-[#b72c0f] px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#96240c] transition cursor-pointer">
-            Follow
+          <button
+            onClick={() => setIsFollowing(!isFollowing)}
+            className={`rounded-full px-5 py-2 text-xs font-bold uppercase tracking-wider transition cursor-pointer ${
+              isFollowing
+                ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                : "bg-[#b72c0f] text-white hover:bg-[#96240c]"
+            }`}
+          >
+            {isFollowing ? "Following" : "Follow"}
           </button>
         </div>
 
@@ -216,7 +284,7 @@ export default function PostDetailPage() {
             {item.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded bg-gray-50 border border-gray-100 px-2.5 py-1 text-xs font-medium text-gray-500 hover:bg-gray-100 cursor-pointer"
+                className="rounded-full bg-gray-50 border border-gray-100 px-3 py-1 text-xs font-medium text-gray-500 hover:bg-gray-100 cursor-pointer"
               >
                 {tag}
               </span>
@@ -257,12 +325,12 @@ export default function PostDetailPage() {
               <Link
                 key={rec.id}
                 href={`/post/${rec.id}`}
-                className="group aspect-square overflow-hidden bg-gray-100 rounded-sm"
+                className="group aspect-square overflow-hidden bg-gray-50 rounded-xl border border-gray-100"
               >
                 <img
                   src={rec.src}
                   alt={rec.alt}
-                  className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                  className="h-full w-full object-cover transition duration-300 group-hover:scale-102"
                 />
               </Link>
             ))}

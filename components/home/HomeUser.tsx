@@ -11,19 +11,27 @@ interface GalleryItem {
 }
 
 export default function HomeUser() {
-  const items: GalleryItem[] = [
+  const baseItems: GalleryItem[] = [
     { id: 1, src: "/1.jpg", alt: "Beautiful beach" },
     { id: 2, src: "/2.jpg", alt: "Food aesthetic" },
     { id: 3, src: "/3.avif", alt: "Korea aesthetic" },
     { id: 4, src: "/4.jpg", alt: "Flowers aesthetic" },
   ];
 
+  const items: GalleryItem[] = Array.from({ length: 5 }).flatMap(
+    (_, rowIndex) =>
+      baseItems.map((item, itemIndex) => ({
+        ...item,
+        id: rowIndex * baseItems.length + itemIndex + 1,
+      })),
+  );
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
-  const [likedItems, setLikedItems] = useState<number[]>([]);
+  const [likedItems, setLikedItems] = useState<string[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -45,37 +53,52 @@ export default function HomeUser() {
     setActiveDropdown(null);
   };
 
-  const toggleLike = (id: number) => {
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null);
+  };
+
+  const toggleLike = (uniqueId: string) => {
     setLikedItems((prev) => {
-      const isCurrentlyLiked = prev.includes(id);
+      const isCurrentlyLiked = prev.includes(uniqueId);
       if (isCurrentlyLiked) {
-        return prev.filter((itemId) => itemId !== id);
+        return prev.filter((id) => id !== uniqueId);
       } else {
         setToastMessage("Saved successfully to profile");
-        return [...prev, id];
+        return [...prev, uniqueId];
       }
     });
   };
 
-  const toggleDropdown = (e: React.MouseEvent, id: number) => {
+  const toggleDropdown = (e: React.MouseEvent, uniqueId: string) => {
     e.stopPropagation();
-    setActiveDropdown(activeDropdown === id ? null : id);
+    setActiveDropdown(activeDropdown === uniqueId ? null : uniqueId);
   };
 
-  const handleDropdownAction = (action: string, itemTitle: string) => {
+  const handleDropdownAction = (action: string) => {
     setActiveDropdown(null);
-    setToastMessage(`${action} "${itemTitle}" triggered successfully!`);
+    setToastMessage(null);
+    setTimeout(() => {
+      if (action === "Download") {
+        setToastMessage("Image downloaded successfully");
+      } else if (action === "Share") {
+        setToastMessage("Link shared successfully");
+      } else if (action === "Report") {
+        setToastMessage("Image reported successfully");
+      }
+    }, 50);
   };
 
-  const renderGrid = (itemsList: GalleryItem[]) => (
+  const renderGrid = (itemsList: GalleryItem[], sectionPrefix: string) => (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {itemsList.map((item) => {
-        const isLiked = likedItems.includes(item.id);
-        const isDropdownOpen = activeDropdown === item.id;
+        const uniqueId = `${sectionPrefix}-${item.id}`;
+        const isLiked = likedItems.includes(uniqueId);
+        const isDropdownOpen = activeDropdown === uniqueId;
 
         return (
           <div
-            key={item.id}
+            key={uniqueId}
             className="group relative aspect-square w-full overflow-hidden bg-gray-50 rounded-xl border border-gray-100"
           >
             <Link href={`/post/${item.id}`} className="block h-full w-full">
@@ -94,7 +117,7 @@ export default function HomeUser() {
               }`}
             >
               <button
-                onClick={() => toggleLike(item.id)}
+                onClick={() => toggleLike(uniqueId)}
                 className={`flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all duration-200 hover:scale-110 active:scale-90 pointer-events-auto cursor-pointer ${
                   isLiked
                     ? "bg-[#b72c0f] text-white"
@@ -136,7 +159,7 @@ export default function HomeUser() {
                 ref={isDropdownOpen ? dropdownRef : null}
               >
                 <button
-                  onClick={(e) => toggleDropdown(e, item.id)}
+                  onClick={(e) => toggleDropdown(e, uniqueId)}
                   className={`flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer ${
                     isDropdownOpen
                       ? "bg-[#b72c0f] text-white"
@@ -162,20 +185,20 @@ export default function HomeUser() {
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-36 origin-top-right rounded-xl bg-white p-1.5 shadow-lg border border-gray-100 ring-1 ring-black/5 z-30 animate-fadeIn">
                     <button
-                      onClick={() => handleDropdownAction("Download", item.alt)}
+                      onClick={() => handleDropdownAction("Download")}
                       className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                     >
                       Download
                     </button>
                     <button
-                      onClick={() => handleDropdownAction("Share", item.alt)}
+                      onClick={() => handleDropdownAction("Share")}
                       className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                     >
                       Share
                     </button>
                     <hr className="my-1 border-gray-100" />
                     <button
-                      onClick={() => handleDropdownAction("Report", item.alt)}
+                      onClick={() => handleDropdownAction("Report")}
                       className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-red-600 rounded-lg hover:bg-red-50 transition-colors"
                     >
                       Report
@@ -191,7 +214,7 @@ export default function HomeUser() {
   );
 
   return (
-    <main className="min-h-screen bg-[#fafafa] font-sans antialiased relative">
+    <main className="min-h-screen bg-[#FCFCFC] font-sans antialiased relative">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-14">
         <section>
           <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
@@ -199,7 +222,7 @@ export default function HomeUser() {
               Top Today Images
             </h2>
           </div>
-          {renderGrid(items)}
+          {renderGrid(items, "top")}
         </section>
 
         <section>
@@ -208,7 +231,7 @@ export default function HomeUser() {
               Following Feed
             </h2>
           </div>
-          {renderGrid(items)}
+          {renderGrid(items, "feed")}
         </section>
 
         <section>
@@ -217,14 +240,14 @@ export default function HomeUser() {
               Favorite Tags
             </h2>
           </div>
-          {renderGrid([...items].reverse())}
+          {renderGrid([...items].reverse(), "tags")}
         </section>
       </div>
 
       {isModalOpen && selectedItem && (
         <AddToCollectionModal
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={handleCloseModal}
           imageSrc={selectedItem.src}
           imageAlt={selectedItem.alt}
         />

@@ -20,10 +20,45 @@ export default function SignUp() {
     e.preventDefault();
 
     const newErrors: typeof errors = {};
-    if (!name) newErrors.name = "Please enter your full name";
-    if (!username) newErrors.username = "Please choose a username";
-    if (!email) newErrors.email = "Please enter your email address";
-    if (!password) newErrors.password = "Please create a password";
+
+    const cleanName = name.trim();
+    if (!cleanName) {
+      newErrors.name = "The name cannot be empty.";
+    } else if (cleanName.length > 10) {
+      newErrors.name = "The name cannot exceed 10 characters.";
+    }
+
+    const cleanUsername = username.trim();
+    if (!cleanUsername) {
+      newErrors.username = "Please choose a username.";
+    } else if (cleanUsername.length < 3 || cleanUsername.length > 20) {
+      newErrors.username = "The username must be between 3 and 20 characters.";
+    } else {
+      const usernameRegex = /^[a-zA-Z0-9_]+$/;
+      if (!usernameRegex.test(cleanUsername)) {
+        newErrors.username =
+          "The username can only contain letters, numbers, and underscores.";
+      }
+    }
+
+    const cleanEmail = email.trim();
+    if (!cleanEmail) {
+      newErrors.email = "Please enter your email address.";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(cleanEmail)) {
+        newErrors.email = "Please enter a valid email address.";
+      }
+    }
+
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.,\-_])(?=.{8,})/;
+    if (!password) {
+      newErrors.password = "Please create a password.";
+    } else if (!strongPasswordRegex.test(password)) {
+      newErrors.password =
+        "The password must have at least 8 characters, including uppercase, lowercase, a number and a symbol.";
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -32,15 +67,15 @@ export default function SignUp() {
 
     setErrors({});
     console.log("Account created successfully", {
-      name,
-      username,
-      email,
+      name: cleanName,
+      username: cleanUsername,
+      email: cleanEmail,
       password,
     });
   };
 
   return (
-    <div className="flex min-h-[90vh] items-center justify-center bg-[#fafafa] px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-[90vh] items-center justify-center bg-[#FCFCFC] px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md bg-white rounded-3xl border border-gray-100 p-8 shadow-sm md:p-10">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
@@ -51,7 +86,7 @@ export default function SignUp() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="name"
@@ -65,6 +100,7 @@ export default function SignUp() {
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              maxLength={10}
               className={`w-full px-4 py-2.5 bg-gray-50 border rounded-full text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white ${
                 errors.name
                   ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"
@@ -91,6 +127,7 @@ export default function SignUp() {
               placeholder="Enter your username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              maxLength={20}
               className={`w-full px-4 py-2.5 bg-gray-50 border rounded-full text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white ${
                 errors.username
                   ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"

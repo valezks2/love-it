@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import AddToCollectionModal from "@/components/ui/AddToCollectionModal";
 import Toast from "@/components/ui/Toast";
 
@@ -11,20 +12,40 @@ interface GalleryItem {
 }
 
 export default function HomePage() {
-  const items: GalleryItem[] = [
+  const router = useRouter();
+
+  const baseItems: GalleryItem[] = [
     { id: 1, src: "/1.jpg", alt: "Beautiful beach" },
     { id: 2, src: "/2.jpg", alt: "Food aesthetic" },
     { id: 3, src: "/3.avif", alt: "Korea aesthetic" },
     { id: 4, src: "/4.jpg", alt: "Flowers aesthetic" },
   ];
 
+  const items: GalleryItem[] = Array.from({ length: 5 }).flatMap(
+    (_, rowIndex) =>
+      baseItems.map((item, itemIndex) => ({
+        ...item,
+        id: rowIndex * baseItems.length + itemIndex + 1,
+      })),
+  );
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [likedItems, setLikedItems] = useState<number[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const [currentActiveDropdown, setActiveDropdown] = useState<number | null>(
+    null,
+  );
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const session = localStorage.getItem("user_session");
+    if (session) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,6 +61,11 @@ export default function HomePage() {
   }, []);
 
   const handleOpenModal = (item: GalleryItem) => {
+    if (!isLoggedIn) {
+      router.push("/auth/login");
+      return;
+    }
+
     setSelectedItem(item);
     setIsModalOpen(true);
     setActiveDropdown(null);
@@ -51,6 +77,11 @@ export default function HomePage() {
   };
 
   const toggleLike = (id: number) => {
+    if (!isLoggedIn) {
+      router.push("/auth/login");
+      return;
+    }
+
     setLikedItems((prev) => {
       const isCurrentlyLiked = prev.includes(id);
       if (isCurrentlyLiked) {
@@ -64,16 +95,22 @@ export default function HomePage() {
 
   const toggleDropdown = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();
-    setActiveDropdown(activeDropdown === id ? null : id);
+    setActiveDropdown(currentActiveDropdown === id ? null : id);
   };
 
-  const handleDropdownAction = (action: string, itemTitle: string) => {
+  const handleDropdownAction = (action: string) => {
     setActiveDropdown(null);
-    setToastMessage(`${action} "${itemTitle}" triggered successfully!`);
+    if (action === "Download") {
+      setToastMessage("Image downloaded successfully");
+    } else if (action === "Share") {
+      setToastMessage("Link shared successfully");
+    } else if (action === "Report") {
+      setToastMessage("Image reported successfully");
+    }
   };
 
   return (
-    <main className="min-h-screen bg-[#fafafa] font-sans antialiased relative">
+    <main className="min-h-screen bg-[#FCFCFC] font-sans antialiased relative">
       <section
         className="relative flex h-[50vh] min-h-[350px] items-center justify-center bg-cover bg-center text-white"
         style={{ backgroundImage: "url('/hero.jpg')" }}
@@ -107,7 +144,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {items.map((item) => {
             const isLiked = likedItems.includes(item.id);
-            const isDropdownOpen = activeDropdown === item.id;
+            const isDropdownOpen = currentActiveDropdown === item.id;
 
             return (
               <div
@@ -190,7 +227,7 @@ export default function HomePage() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0?"
+                          d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0"
                         />
                       </svg>
                     </button>
@@ -198,26 +235,20 @@ export default function HomePage() {
                     {isDropdownOpen && (
                       <div className="absolute right-0 mt-2 w-36 origin-top-right rounded-xl bg-white p-1.5 shadow-lg border border-gray-100 ring-1 ring-black/5 z-30 animate-fadeIn">
                         <button
-                          onClick={() =>
-                            handleDropdownAction("Download", item.alt)
-                          }
+                          onClick={() => handleDropdownAction("Download")}
                           className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors"
                         >
                           Download
                         </button>
                         <button
-                          onClick={() =>
-                            handleDropdownAction("Share", item.alt)
-                          }
+                          onClick={() => handleDropdownAction("Share")}
                           className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors"
                         >
                           Share
                         </button>
                         <hr className="my-1 border-gray-100" />
                         <button
-                          onClick={() =>
-                            handleDropdownAction("Report", item.alt)
-                          }
+                          onClick={() => handleDropdownAction("Report")}
                           className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-red-600 rounded-lg hover:bg-red-50 transition-colors"
                         >
                           Report

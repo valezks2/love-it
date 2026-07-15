@@ -37,7 +37,7 @@ export default function ProfileWrapper({
   return (
     <main className="min-h-screen bg-white font-sans antialiased text-gray-800">
       <section
-        className="relative h-[30vh] min-h-[200px] w-full bg-cover bg-center"
+        className="relative h-[40vh] min-h-[300px] w-full bg-cover bg-center"
         style={{ backgroundImage: `url('${userProfile.banner}')` }}
       >
         <div className="absolute inset-0 bg-black/10 z-0" />

@@ -43,6 +43,18 @@ export default function UpdateModal({
 
   useEffect(() => {
     if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
       setTitle(initialTitle);
       setDescription(initialDescription);
       setBannerPreview(initialBannerImage);

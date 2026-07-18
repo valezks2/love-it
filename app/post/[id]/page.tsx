@@ -1,8 +1,10 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Toast from "@/components/ui/Toast";
+import ImageActionsDropdown from "@/components/ui/ImageActionsDropdown";
+import AddToCollectionModal from "@/components/ui/AddToCollectionModal";
 
 const ITEMS_DB = [
   {
@@ -49,23 +51,8 @@ export default function PostDetailPage() {
 
   const [isLiked, setIsLiked] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const item = ITEMS_DB.find((img) => img.id === Number(id));
 
@@ -92,20 +79,6 @@ export default function PostDetailPage() {
       }
       return !prev;
     });
-  };
-
-  const handleDropdownAction = (action: string) => {
-    setIsDropdownOpen(false);
-    setToastMessage(null);
-    setTimeout(() => {
-      if (action === "Download") {
-        setToastMessage("Image downloaded successfully");
-      } else if (action === "Share") {
-        setToastMessage("Link shared successfully");
-      } else if (action === "Report") {
-        setToastMessage("Image reported successfully");
-      }
-    }, 50);
   };
 
   return (
@@ -140,82 +113,29 @@ export default function PostDetailPage() {
         </div>
 
         <div className="relative border-b border-gray-100 px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-6 text-gray-500">
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="hover:text-gray-800 cursor-pointer flex items-center justify-center h-6 w-6"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0z"
-                  />
-                </svg>
-              </button>
+          <div className="flex items-center gap-4 text-gray-500">
+            <ImageActionsDropdown
+              item={item}
+              onActionSuccess={(msg) => setToastMessage(msg)}
+              align="left"
+            />
 
-              {isDropdownOpen && (
-                <div className="absolute left-0 mt-2 w-40 rounded-xl bg-white shadow-lg border border-gray-100 py-1 z-30 animate-fadeIn">
-                  <button
-                    onClick={() => handleDropdownAction("Download")}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-medium"
-                  >
-                    Download
-                  </button>
-                  <button
-                    onClick={() => handleDropdownAction("Share")}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-medium"
-                  >
-                    Share link
-                  </button>
-                  <hr className="border-gray-100 my-1" />
-                  <button
-                    onClick={() => handleDropdownAction("Report")}
-                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium"
-                  >
-                    Report post
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <button className="hover:text-gray-800 cursor-pointer">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="w-9 h-9 rounded-full bg-white shadow-sm border border-gray-100/70 flex items-center justify-center text-gray-700 hover:text-[#b72c0f] transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={2}
                 stroke="currentColor"
-                className="w-6 h-6"
+                className="w-5 h-5"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44z"
-                />
-              </svg>
-            </button>
-            <button className="hover:text-gray-800 cursor-pointer">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185z"
                 />
               </svg>
             </button>
@@ -275,19 +195,20 @@ export default function PostDetailPage() {
               “
             </span>
             <p className="text-sm font-medium pt-1">peace</p>
-            <span className="text-2xl font-serif text-gray-300 leading-none">
+            <span className="text-2xl font-serif text-gray-300 stroke-none leading-none">
               ”
             </span>
           </div>
 
           <div className="flex flex-wrap gap-2 pt-2">
             {item.tags.map((tag) => (
-              <span
+              <Link
                 key={tag}
-                className="rounded-full bg-gray-50 border border-gray-100 px-3 py-1 text-xs font-medium text-gray-500 hover:bg-gray-100 cursor-pointer"
+                href={`/tags/${tag}`}
+                className="rounded-full bg-gray-50 border border-gray-100 px-3 py-1 text-xs font-medium text-gray-500 hover:bg-gray-100 transition duration-200"
               >
                 {tag}
-              </span>
+              </Link>
             ))}
           </div>
 
@@ -338,6 +259,14 @@ export default function PostDetailPage() {
         </div>
       </div>
 
+      {isModalOpen && (
+        <AddToCollectionModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          imageSrc={item.src}
+          imageAlt={item.alt}
+        />
+      )}
       {toastMessage && (
         <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
       )}

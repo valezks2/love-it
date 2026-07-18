@@ -14,6 +14,9 @@ interface Notification {
   text: string;
   time: string;
   isRead: boolean;
+  type: "like" | "comment" | "save" | "system";
+  avatar?: string;
+  imagePreview?: string;
 }
 
 export default function Header() {
@@ -23,28 +26,42 @@ export default function Header() {
   const [user, setUser] = useState<MockUser | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
   const [searchQuery, setSearchQuery] = useState("");
-
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: "1",
-      text: "Someone liked your photo",
+      text: "Jane Doe loved your photo",
       time: "5m ago",
       isRead: false,
+      type: "like",
+      avatar:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
+      imagePreview:
+        "https://images.unsplash.com/photo-1542241647-9cbb2225278b?w=150",
     },
     {
       id: "2",
-      text: "New comment on your rustic design",
+      text: "Alex River commented on your rustic design",
       time: "1h ago",
       isRead: false,
+      type: "comment",
+      avatar:
+        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150",
+      imagePreview:
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=150",
     },
     {
       id: "3",
-      text: "Your upload was processed successfully",
+      text: "Jane Doe saved your picture in their collection",
       time: "1d ago",
       isRead: true,
+      type: "save",
+      avatar:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
+      imagePreview:
+        "https://images.unsplash.com/photo-1542241647-9cbb2225278b?w=150",
     },
   ]);
 
@@ -112,7 +129,7 @@ export default function Header() {
   const handleLogout = () => {
     localStorage.removeItem("user_session");
     setUser(null);
-    setIsOpen(false);
+    isOpen && setIsOpen(false);
     window.location.href = "/";
   };
 
@@ -120,7 +137,82 @@ export default function Header() {
     setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
   };
 
+  const toggleReadStatus = (id: string) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)),
+    );
+  };
+
   const hasUnread = notifications.some((n) => !n.isRead);
+
+  const renderNotificationIcon = (type: Notification["type"]) => {
+    switch (type) {
+      case "like":
+        return (
+          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white shadow-sm ring-2 ring-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-3 h-3"
+            >
+              <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+            </svg>
+          </span>
+        );
+      case "comment":
+        return (
+          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-white shadow-sm ring-2 ring-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-3 h-3"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.337 21.718a.75.75 0 0 1-.621-.832l1.241-7.443A7.5 7.5 0 0 1 12 4.5c4.142 0 7.5 3.134 7.5 7a7 7 0 0 1-7.5 7 7.46 7.46 0 0 1-3.616-.93l-2.915 2.04a.75.75 0 0 1-.632.108Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </span>
+        );
+      case "save":
+        return (
+          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white shadow-sm ring-2 ring-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-3 h-3"
+            >
+              <path
+                fillRule="evenodd"
+                d="M6.32 2.577a3 3 0 0 1 3.16.507l3.02 2.418A1 1 0 0 0 13.14 6H19a3 3 0 0 1 3 3v8.5a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-13a3 3 0 0 1 4.32-2.723Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </span>
+        );
+      default:
+        return (
+          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-500 text-white shadow-sm ring-2 ring-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-3 h-3"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 01-.988-1.13c1.434-1.25 3.8-1.25 5.233 0a.75.75 0 01-.99 1.13zM13.25 13.5a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </span>
+        );
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between bg-white px-4 py-3 shadow-sm md:px-8">
@@ -266,57 +358,101 @@ export default function Header() {
               </button>
 
               {isNotificationsOpen && (
-                <div className="absolute right-0 top-full mt-2 w-80 rounded-lg border border-gray-200 bg-white shadow-lg z-50 overflow-hidden">
-                  <div className="flex items-center justify-between border-b border-gray-100 px-4 py-2.5">
-                    <h3 className="font-semibold text-sm text-gray-800">
+                <div className="absolute right-0 top-full mt-2 w-85 rounded-xl border border-gray-100 bg-white shadow-xl z-50 overflow-hidden transition-all duration-200">
+                  <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3 bg-gray-50/50">
+                    <h3 className="font-bold text-sm text-gray-900">
                       Notifications
                     </h3>
                     {hasUnread && (
                       <button
                         onClick={markAllAsRead}
-                        className="text-xs font-medium text-[#b72c0f] hover:underline cursor-pointer"
+                        className="text-xs font-semibold text-[#b72c0f] hover:text-[#96240c] transition-colors cursor-pointer"
                       >
                         Mark all as read
                       </button>
                     )}
                   </div>
 
-                  <div className="max-h-72 overflow-y-auto">
+                  <div className="max-h-80 overflow-y-auto">
                     {notifications.length === 0 ? (
-                      <div className="px-4 py-6 text-center text-sm text-gray-500">
+                      <div className="px-4 py-8 text-center text-sm text-gray-400 flex flex-col items-center gap-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-8 h-8 text-gray-300"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                          />
+                        </svg>
                         You have no notifications
                       </div>
                     ) : (
-                      <div className="divide-y divide-gray-50">
+                      <div className="divide-y divide-gray-100">
                         {notifications.map((notif) => (
                           <div
                             key={notif.id}
-                            className={`flex flex-col gap-1 p-3 text-left transition-colors hover:bg-gray-50 cursor-pointer ${
-                              !notif.isRead ? "bg-red-50/30" : ""
+                            onClick={() => toggleReadStatus(notif.id)}
+                            className={`flex items-center gap-3 p-3.5 text-left transition-colors hover:bg-gray-50/80 cursor-pointer relative ${
+                              !notif.isRead ? "bg-red-50/15" : ""
                             }`}
                           >
-                            <div className="flex items-start justify-between gap-2">
-                              <p className="text-sm text-gray-700">
+                            <div className="relative flex-shrink-0">
+                              <img
+                                src={notif.avatar || "/logo.png"}
+                                alt="User indicator"
+                                className={`w-10 h-10 rounded-full object-cover bg-gray-100 ${
+                                  notif.type === "system"
+                                    ? "p-1.5 object-contain border border-gray-200"
+                                    : ""
+                                }`}
+                              />
+                              {renderNotificationIcon(notif.type)}
+                            </div>
+
+                            <div className="flex-1 min-w-0">
+                              <p
+                                className={`text-sm text-gray-700 leading-tight ${!notif.isRead ? "font-medium text-gray-900" : ""}`}
+                              >
                                 {notif.text}
                               </p>
-                              {!notif.isRead && (
-                                <span className="h-1.5 w-1.5 mt-1.5 rounded-full bg-red-500 flex-shrink-0"></span>
-                              )}
+                              <span className="text-[11px] font-medium text-gray-400 block mt-1">
+                                {notif.time}
+                              </span>
                             </div>
-                            <span className="text-[10px] text-gray-400">
-                              {notif.time}
-                            </span>
+
+                            {notif.imagePreview ? (
+                              <div className="flex-shrink-0 ml-1 relative">
+                                <img
+                                  src={notif.imagePreview}
+                                  alt="Content preview"
+                                  className="w-10 h-10 rounded-lg object-cover border border-gray-100"
+                                />
+                                {!notif.isRead && (
+                                  <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500"></span>
+                                )}
+                              </div>
+                            ) : (
+                              !notif.isRead && (
+                                <span className="h-2 w-2 rounded-full bg-red-500 flex-shrink-0 ml-auto"></span>
+                              )
+                            )}
                           </div>
                         ))}
                       </div>
                     )}
                   </div>
 
-                  <div className="border-t border-gray-100 p-2 text-center">
+                  <div className="border-t border-gray-100 bg-gray-50/30 p-2 text-center">
                     <Link
                       href="/notifications"
                       onClick={() => setIsNotificationsOpen(false)}
-                      className="block text-xs font-medium text-gray-500 hover:text-gray-800 py-1"
+                      className="block text-xs font-bold text-gray-500 hover:text-gray-800 transition-colors py-1.5"
                     >
                       See all notifications
                     </Link>

@@ -104,7 +104,7 @@ export default function SearchResultsPage() {
   return (
     <Suspense
       fallback={
-        <div className="text-center py-20 text-gray-500 font-medium">
+        <div className="text-center py-20 text-gray-500 dark:text-muted font-medium">
           Loading search...
         </div>
       }
@@ -177,7 +177,7 @@ function SearchResultsContent() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-main md:text-3xl">
           {query ? (
             <>
               Results for <span className="text-[#b72c0f]">"{query}"</span>
@@ -186,13 +186,13 @@ function SearchResultsContent() {
             "Explore all"
           )}
         </h1>
-        <p className="mt-2 text-sm text-gray-500 font-medium">
+        <p className="mt-2 text-sm text-gray-500 dark:text-muted font-medium">
           We found {filteredPhotos.length} photos, {filteredCollections.length}{" "}
           collections and {filteredUsers.length} users.
         </p>
       </div>
 
-      <div className="mb-8 border-b border-gray-200">
+      <div className="mb-8 border-b border-gray-200 dark:border-border-custom">
         <div className="flex gap-6">
           {(["photos", "collections", "users"] as const).map((tab) => (
             <button
@@ -201,7 +201,7 @@ function SearchResultsContent() {
               className={`pb-3 text-sm font-semibold capitalize transition-all border-b-2 cursor-pointer ${
                 activeTab === tab
                   ? "border-[#b72c0f] text-[#b72c0f]"
-                  : "border-transparent text-gray-500 hover:text-gray-800"
+                  : "border-transparent text-gray-500 dark:text-muted hover:text-gray-800 dark:hover:text-main"
               }`}
             >
               {tab} (
@@ -218,7 +218,7 @@ function SearchResultsContent() {
 
       {activeTab === "photos" &&
         (filteredPhotos.length === 0 ? (
-          <div className="py-20 text-center text-gray-500 font-medium">
+          <div className="py-20 text-center text-gray-500 dark:text-muted font-medium">
             No photos found matching your search.
           </div>
         ) : (
@@ -234,7 +234,7 @@ function SearchResultsContent() {
 
       {activeTab === "collections" &&
         (filteredCollections.length === 0 ? (
-          <div className="py-20 text-center text-gray-500 font-medium">
+          <div className="py-20 text-center text-gray-500 dark:text-muted font-medium">
             No collections found matching your search.
           </div>
         ) : (
@@ -243,7 +243,7 @@ function SearchResultsContent() {
 
       {activeTab === "users" &&
         (filteredUsers.length === 0 ? (
-          <div className="py-20 text-center text-gray-500 font-medium">
+          <div className="py-20 text-center text-gray-500 dark:text-muted font-medium">
             No users found matching your search.
           </div>
         ) : (
@@ -253,12 +253,12 @@ function SearchResultsContent() {
               return (
                 <div
                   key={user.id}
-                  className="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md"
+                  className="flex items-center justify-between p-4 rounded-2xl bg-white dark:bg-nav border border-gray-100 dark:border-border-custom shadow-sm transition-all duration-300 hover:shadow-md"
                 >
                   <div className="flex items-center gap-3">
                     <Link
                       href={`/user/${user.username}`}
-                      className="relative h-11 w-11 shrink-0 rounded-full bg-gray-200 overflow-hidden border border-gray-100 cursor-pointer"
+                      className="relative h-11 w-11 shrink-0 rounded-full bg-gray-200 dark:bg-background overflow-hidden border border-gray-100 dark:border-border-custom cursor-pointer"
                     >
                       <img
                         src={user.avatar}
@@ -268,11 +268,13 @@ function SearchResultsContent() {
                     </Link>
                     <div>
                       <Link href={`/user/${user.username}`}>
-                        <h3 className="font-bold text-gray-800 flex items-center gap-1 text-sm cursor-pointer hover:text-[#b72c0f] transition">
+                        <h3 className="font-bold text-gray-800 dark:text-main flex items-center gap-1 text-sm cursor-pointer hover:text-[#b72c0f] dark:hover:text-[#b72c0f] transition">
                           {user.name}
                         </h3>
                       </Link>
-                      <p className="text-xs text-gray-400">@{user.username}</p>
+                      <p className="text-xs text-gray-400 dark:text-muted/60">
+                        @{user.username}
+                      </p>
                     </div>
                   </div>
 
@@ -280,7 +282,7 @@ function SearchResultsContent() {
                     onClick={() => toggleFollowUser(user.id)}
                     className={`rounded-full px-5 py-2 text-xs font-bold uppercase tracking-wider transition cursor-pointer shrink-0 ${
                       isFollowing
-                        ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        ? "bg-gray-100 dark:bg-background text-gray-700 dark:text-muted hover:bg-gray-200 dark:hover:bg-background/80 border border-transparent dark:border-border-custom"
                         : "bg-[#b72c0f] text-white hover:bg-[#96240c]"
                     }`}
                   >

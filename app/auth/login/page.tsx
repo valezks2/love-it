@@ -7,31 +7,51 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setErrors({
-        email: !email ? "Please enter your email address" : "",
-        password: !password ? "Please enter your password" : "",
-      });
+    const newErrors: typeof errors = {};
+
+    const cleanEmail = email.trim();
+    if (!cleanEmail) {
+      newErrors.email = "Please enter your email.";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(cleanEmail)) {
+        newErrors.email = "Please enter a valid email address.";
+      }
+    }
+
+    if (!password) {
+      newErrors.password = "Please enter your password.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
     setErrors({});
+    setLoading(true);
 
-    const mockUser = {
-      email: email,
-      name: email.split("@")[0],
-    };
+    try {
+      const mockUser = {
+        email: cleanEmail,
+        name: cleanEmail.split("@")[0],
+      };
 
-    localStorage.setItem("user_session", JSON.stringify(mockUser));
-
-    window.location.href = "/";
+      localStorage.setItem("user_session", JSON.stringify(mockUser));
+      window.location.href = "/";
+    } catch (err) {
+      setErrors({ password: "Invalid email or password." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,7 +66,7 @@ export default function Login() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="email"
@@ -155,9 +175,10 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full py-2.5 bg-[#b72c0f] border border-[#b72c0f] text-white font-semibold text-sm rounded-full transition-all duration-200 shadow-sm hover:bg-[#96240c] hover:border-[#96240c] hover:shadow-md active:scale-[0.98] cursor-pointer"
+            disabled={loading}
+            className="w-full py-2.5 bg-[#b72c0f] border border-[#b72c0f] text-white font-semibold text-sm rounded-full transition-all duration-200 shadow-sm hover:bg-[#96240c] hover:border-[#96240c] hover:shadow-md hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Log In
+            {loading ? "Entering..." : "Log In"}
           </button>
         </form>
 

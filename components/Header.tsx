@@ -171,7 +171,7 @@ export default function Header() {
             >
               <path
                 fillRule="evenodd"
-                d="M5.337 21.718a.75.75 0 0 1-.621-.832l1.241-7.443A7.5 7.5 0 0 1 12 4.5c4.142 0 7.5 3.134 7.5 7a7 7 0 0 1-7.5 7 7.46 7.46 0 0 1-3.616-.93l-2.915 2.04a.75.75 0 0 1-.632.108Z"
+                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75a9.75 9.75 0 0 0 1.946 5.866L3.1 20.91a.75.75 0 0 0 .928.928l3.044-1.09a9.75 9.75 0 1 0 4.928-18.5Z"
                 clipRule="evenodd"
               />
             </svg>
@@ -242,14 +242,14 @@ export default function Header() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={handleSearch}
                     placeholder="Search images, styles..."
-                    className="w-full py-1.5 pl-4 pr-14 bg-gray-50 border border-[#b72c0f] rounded-full text-sm text-gray-700 focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#b72c0f] [&::-webkit-search-cancel-button]:appearance-none"
+                    className="w-full py-1.5 pl-4 pr-16 bg-gray-50 border border-[#b72c0f] rounded-full text-sm text-gray-700 focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#b72c0f] [&::-webkit-search-cancel-button]:appearance-none"
                   />
 
                   {searchQuery && (
                     <button
                       type="button"
                       onClick={() => setSearchQuery("")}
-                      className="absolute right-8 top-2.5 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors focus:outline-none"
+                      className="absolute right-10 top-2.5 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors focus:outline-none"
                       aria-label="Clear search"
                     >
                       <svg
@@ -269,7 +269,7 @@ export default function Header() {
                     </button>
                   )}
 
-                  <div className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">
+                  <div className="absolute right-3 top-2.5 flex items-center pl-1.5 border-l border-gray-300 text-gray-400 pointer-events-none">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -358,7 +358,7 @@ export default function Header() {
               </button>
 
               {isNotificationsOpen && (
-                <div className="absolute right-0 top-full mt-2 w-85 rounded-xl border border-gray-100 bg-white shadow-xl z-50 overflow-hidden transition-all duration-200">
+                <div className="absolute right-[-60px] md:right-0 top-full mt-2 w-[calc(100vw-2rem)] sm:w-85 rounded-xl border border-gray-100 bg-white shadow-xl z-50 overflow-hidden transition-all duration-200">
                   <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3 bg-gray-50/50">
                     <h3 className="font-bold text-sm text-gray-900">
                       Notifications
@@ -530,13 +530,13 @@ export default function Header() {
         ) : (
           <>
             <Link href="/auth/login">
-              <button className="px-4 py-2 text-sm font-semibold text-gray-600 rounded-full transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 cursor-pointer">
+              <button className="px-4 py-2 text-sm font-semibold text-gray-600 rounded-full transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 hover:scale-105 active:scale-95 cursor-pointer">
                 Log In
               </button>
             </Link>
 
             <Link href="/auth/sign-up">
-              <button className="px-5 py-2 text-sm font-semibold text-white bg-[#b72c0f] border border-[#b72c0f] rounded-full transition-all duration-200 shadow-sm hover:bg-[#96240c] hover:border-[#96240c] hover:shadow-md active:scale-95 cursor-pointer">
+              <button className="px-5 py-2 text-sm font-semibold text-white bg-[#b72c0f] border border-[#b72c0f] rounded-full transition-all duration-200 shadow-sm hover:bg-[#96240c] hover:border-[#96240c] hover:shadow-md hover:scale-105 active:scale-95 cursor-pointer">
                 Sign Up
               </button>
             </Link>

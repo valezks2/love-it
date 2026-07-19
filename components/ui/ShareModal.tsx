@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 interface ShareModalProps {
   isOpen: boolean;
@@ -14,8 +15,25 @@ export default function ShareModal({
   shareUrl,
 }: ShareModalProps) {
   const [copySuccess, setCopySuccess] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
+  if (!isOpen || !mounted) return null;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(shareUrl).then(
@@ -34,11 +52,11 @@ export default function ShareModal({
       name: "WhatsApp",
       icon: (
         <svg
-          className="w-6 h-6 text-[#25D366]"
+          className="w-5 h-5 shrink-0 text-[#25D366]"
           fill="currentColor"
-          viewBox="0 0 24 24"
+          viewBox="0 0 16 16"
         >
-          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.503-5.729-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.528 1.977 14.053.953 11.5.953c-5.44 0-9.866 4.372-9.87 9.802 0 1.698.452 3.355 1.308 4.811L1.95 21.903l6.591-1.722z" />
+          <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
         </svg>
       ),
     },
@@ -46,7 +64,7 @@ export default function ShareModal({
       name: "Facebook",
       icon: (
         <svg
-          className="w-6 h-6 text-[#1877F2]"
+          className="w-5 h-5 text-[#1877F2] shrink-0"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
@@ -58,7 +76,7 @@ export default function ShareModal({
       name: "X",
       icon: (
         <svg
-          className="w-[22px] h-[22px] text-black"
+          className="w-4 h-4 text-black shrink-0"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
@@ -70,11 +88,11 @@ export default function ShareModal({
       name: "Reddit",
       icon: (
         <svg
-          className="w-6 h-6 text-[#FF4500]"
+          className="w-5 h-5 text-[#FF4500] shrink-0"
           fill="currentColor"
-          viewBox="0 0 24 24"
+          viewBox="0 0 20 20"
         >
-          <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-.533 1.026c.324.438.52.954.55 1.514 1.23.16 2.193 1.204 2.193 2.483 0 1.4-1.138 2.534-2.542 2.534-.14 0-.277-.012-.412-.034-.51 1.157-1.636 1.957-2.956 1.957-.497 0-.965-.115-1.393-.316l-2.222 1.55a.501.501 0 0 1-.68-.113l-.004-.006a.501.501 0 0 1 .116-.68l2.13-1.485c-.328-.275-.6-.6-.803-.967-.318.067-.65.103-.99.103-1.4 0-2.542-1.135-2.542-2.534 0-1.215.856-2.226 1.992-2.46-.02-.124-.03-.25-.03-.379 0-1.748 1.424-3.17 3.174-3.17.653 0 1.26.2 1.77.541a1.247 1.247 0 0 1 1.15-.753zm-5.01 5.323c-.582 0-1.054.472-1.054 1.054a1.053 1.053 0 0 0 1.054 1.053c.581 0 1.053-.471 1.053-1.053a1.055 1.055 0 0 0-1.053-1.054zm3.824 0c-.582 0-1.054.472-1.054 1.054a1.054 1.054 0 0 0 1.054 1.053c.582 0 1.054-.471 1.054-1.053a1.055 1.055 0 0 0-1.054-1.054z" />
+          <path d="M17.16 8.64a2.21 2.21 0 0 0-2.21-2.2 2.17 2.17 0 0 0-1.26.4 10.42 10.42 0 0 0-4.54-1.37l.96-3.03 3.13.67a1.44 1.44 0 1 0 1.44-1.43 1.42 1.42 0 0 0-1.34.93l-3.48-.74a.48.48 0 0 0-.55.33l-1.07 3.37a10.33 10.33 0 0 0-4.6 1.36 2.16 2.16 0 0 0-1.25-.4 2.21 2.21 0 0 0-2.21 2.21c0 .9.53 1.68 1.3 2.04a6.76 6.76 0 0 0-.06.84c0 3.39 4.1 6.14 9.13 6.14s9.14-2.75 9.14-6.14c0-.29-.02-.57-.06-.85a2.2 2.2 0 0 0 1.25-2.03zm-11.28.89a1.18 1.18 0 1 1 1.18 1.18 1.18 1.18 0 0 1-1.18-1.18zm6.54 3.96a4.57 4.57 0 0 1-6.84 0 .36.36 0 0 1 .5-.51 3.84 3.84 0 0 0 5.84 0 .36.36 0 0 1 .5.51zm-.26-2.78a1.18 1.18 0 1 1 1.18-1.18 1.18 1.18 0 0 1-1.18 1.18z" />
         </svg>
       ),
     },
@@ -82,10 +100,10 @@ export default function ShareModal({
       name: "Email",
       icon: (
         <svg
-          className="w-[22px] h-[22px] text-gray-600"
+          className="w-5 h-5 text-gray-600 shrink-0"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2.3"
+          strokeWidth="2"
           viewBox="0 0 24 24"
         >
           <path
@@ -98,21 +116,24 @@ export default function ShareModal({
     },
   ];
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-gray-100 z-10 flex flex-col gap-5">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-gray-100 z-10 flex flex-col gap-5"
+      >
         <div className="flex items-center justify-between">
           <h3 className="text-base font-bold text-gray-900 tracking-tight">
             Share
           </h3>
           <button
             onClick={onClose}
-            className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+            className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +161,7 @@ export default function ShareModal({
           />
           <button
             onClick={handleCopyLink}
-            className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all active:scale-95 flex-shrink-0 cursor-pointer ${
+            className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-200 hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer ${
               copySuccess
                 ? "bg-[#fdf2f0] text-[#b72c0f]"
                 : "bg-[#b72c0f] text-white hover:bg-[#96240c] shadow-sm"
@@ -156,7 +177,7 @@ export default function ShareModal({
               key={platform.name}
               className="flex flex-col items-center gap-2 group cursor-pointer"
             >
-              <div className="h-12 w-12 flex items-center justify-center rounded-full bg-gray-50 border border-gray-100 shadow-sm transition-all group-hover:bg-gray-100 group-hover:scale-105 active:scale-95">
+              <div className="h-12 w-12 flex items-center justify-center rounded-full bg-gray-50 border border-gray-100 shadow-sm transition-all duration-200 group-hover:bg-gray-100 group-hover:scale-105 active:scale-95">
                 {platform.icon}
               </div>
               <span className="text-[11px] font-medium text-gray-500 group-hover:text-gray-900 transition-colors truncate max-w-full">
@@ -166,6 +187,7 @@ export default function ShareModal({
           ))}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

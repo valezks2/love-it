@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 
@@ -95,7 +94,7 @@ export default function AddToCollectionModal({
 
           <button
             onClick={onClose}
-            className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+            className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +148,7 @@ export default function AddToCollectionModal({
                   console.log(`Saved to ${collection.title}`);
                   onClose();
                 }}
-                className="w-full flex items-center justify-between p-3 rounded-2xl text-left font-semibold text-sm text-gray-700 hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all active:scale-[0.99]"
+                className="w-full flex items-center justify-between p-3 rounded-2xl text-left font-semibold text-sm text-gray-700 hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all duration-200 hover:scale-[1.02] active:scale-[0.99] cursor-pointer"
               >
                 <span className="truncate mr-4">{collection.title}</span>
                 <span className="text-xs text-gray-400 font-medium bg-gray-100 px-2 py-0.5 rounded-full flex-shrink-0">
@@ -171,7 +170,7 @@ export default function AddToCollectionModal({
                 setIsCreating(true);
                 setNewCollectionTitle(searchQuery);
               }}
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-full border border-dashed border-gray-300 hover:border-[#b72c0f] hover:bg-[#b72c0f]/5 text-sm font-bold text-gray-600 hover:text-[#b72c0f] transition-all"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-[#b72c0f] hover:bg-[#96240c] text-sm font-bold text-white shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -201,14 +200,14 @@ export default function AddToCollectionModal({
               />
               <button
                 type="submit"
-                className="px-4 py-2 bg-[#b72c0f] text-white text-sm font-bold rounded-full hover:bg-[#96240c] transition-colors shadow-sm active:scale-95"
+                className="px-4 py-2 bg-[#b72c0f] text-white text-sm font-bold rounded-full hover:bg-[#96240c] transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm cursor-pointer"
               >
                 Create
               </button>
               <button
                 type="button"
                 onClick={() => setIsCreating(false)}
-                className="px-2 py-2 text-gray-500 hover:text-gray-700 text-sm font-semibold transition-colors"
+                className="px-3 py-2 text-gray-500 hover:text-gray-700 text-sm font-semibold transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
               >
                 Cancel
               </button>

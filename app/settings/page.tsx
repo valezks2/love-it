@@ -1,8 +1,11 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import DeleteAccountModal from "@/components/ui/DeleteAccountModal";
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("Account");
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -19,7 +22,33 @@ export default function SettingsPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [theme, setTheme] = useState("system");
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("theme") || "system";
+    }
+    return "system";
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else if (theme === "light") {
+      root.classList.add("light");
+    } else {
+      localStorage.removeItem("theme");
+      return;
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const [errors, setErrors] = useState<{
+    name?: string;
+    email?: string;
+    password?: string;
+  }>({});
 
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const headerInputRef = useRef<HTMLInputElement>(null);
@@ -50,16 +79,47 @@ export default function SettingsPage() {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const newErrors: typeof errors = {};
+
+    if (activeTab === "Account") {
+      if (!name.trim()) {
+        newErrors.name = "The name cannot be empty.";
+      }
+    }
+
+    if (activeTab === "Privacy") {
+      if (!email.trim()) {
+        newErrors.email = "Please enter your email.";
+      }
+
+      if (password.length > 0) {
+        const strongPasswordRegex =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.,\-_])(?=.{8,})/;
+        if (!strongPasswordRegex.test(password)) {
+          newErrors.password =
+            "The password must have at least 8 characters, including uppercase, lowercase, a number and a symbol.";
+        }
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
     alert("Changes saved successfully!");
   };
 
   const handleDeleteAccount = () => {
-    const confirmDelete = confirm(
-      "Are you sure you want to permanently delete your account? This action cannot be undone.",
-    );
-    if (confirmDelete) {
-      alert("Account deleted.");
-    }
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDeleteAccount = async (password: string) => {
+    console.log("Iniciando eliminación con la contraseña:", password);
+    alert("Account permanently deleted.");
+    setIsDeleteModalOpen(false);
   };
 
   return (
@@ -75,7 +135,10 @@ export default function SettingsPage() {
               <button
                 key={item.id}
                 type="button"
-                onClick={() => setActiveTab(item.id)}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  setErrors({});
+                }}
                 className={`w-full text-left px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 cursor-pointer ${
                   activeTab === item.id
                     ? "bg-white text-[#b72c0f] shadow-sm"
@@ -89,7 +152,7 @@ export default function SettingsPage() {
 
           <div className="md:col-span-3 bg-white rounded-3xl border border-gray-100 p-6 md:p-10 shadow-sm">
             {activeTab === "Account" && (
-              <form onSubmit={handleSave} className="space-y-6">
+              <form onSubmit={handleSave} className="space-y-6" noValidate>
                 <div className="space-y-1 border-b border-gray-100 pb-5 mb-6">
                   <h2 className="text-xl font-bold text-gray-800">
                     Public profile
@@ -196,8 +259,17 @@ export default function SettingsPage() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Your full name or display name"
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                      className={`w-full px-4 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white ${
+                        errors.name
+                          ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                          : "border-gray-200 focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                      }`}
                     />
+                    {errors.name && (
+                      <p className="text-xs font-medium text-red-500 pl-3 mt-0.5">
+                        {errors.name}
+                      </p>
+                    )}
                     <p className="text-xs text-gray-400 pl-1">
                       Help people discover your account by using your name.
                     </p>
@@ -312,7 +384,7 @@ export default function SettingsPage() {
 
             {activeTab === "Privacy" && (
               <div className="space-y-10">
-                <form onSubmit={handleSave} className="space-y-6">
+                <form onSubmit={handleSave} className="space-y-6" noValidate>
                   <div className="space-y-1 border-b border-gray-100 pb-5 mb-6">
                     <h2 className="text-xl font-bold text-gray-800">
                       Privacy & safety
@@ -333,8 +405,17 @@ export default function SettingsPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your.email@example.com"
-                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                        className={`w-full px-4 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white ${
+                          errors.email
+                            ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                            : "border-gray-200 focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                        }`}
                       />
+                      {errors.email && (
+                        <p className="text-xs font-medium text-red-500 pl-3 mt-0.5">
+                          {errors.email}
+                        </p>
+                      )}
                       <p className="text-xs text-gray-400 pl-1">
                         Your primary email address for account notifications and
                         security.
@@ -352,8 +433,17 @@ export default function SettingsPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
-                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                        className={`w-full px-4 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white ${
+                          errors.password
+                            ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                            : "border-gray-200 focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                        }`}
                       />
+                      {errors.password && (
+                        <p className="text-xs font-medium text-red-500 pl-3 mt-0.5">
+                          {errors.password}
+                        </p>
+                      )}
                       <p className="text-xs text-gray-400 pl-1">
                         Choose a secure, complex password to safeguard your
                         account.
@@ -404,7 +494,7 @@ export default function SettingsPage() {
             )}
 
             {activeTab === "Theme" && (
-              <form onSubmit={handleSave} className="space-y-8">
+              <form onSubmit={handleSave} className="space-y-8" noValidate>
                 <div className="space-y-1 border-b border-gray-100 pb-5 mb-6">
                   <h2 className="text-xl font-bold text-gray-800">
                     Interface theme
@@ -588,6 +678,11 @@ export default function SettingsPage() {
           </div>
         </div>
       </div>
+      <DeleteAccountModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirmDelete={handleConfirmDeleteAccount}
+      />
     </main>
   );
 }

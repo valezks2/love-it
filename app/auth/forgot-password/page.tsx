@@ -65,7 +65,7 @@ export default function ForgotPassword() {
 
             <button
               type="submit"
-              className="w-full py-2.5 bg-[#b72c0f] border border-[#b72c0f] text-white font-semibold text-sm rounded-full transition-all duration-200 shadow-sm hover:bg-[#96240c] hover:border-[#96240c] hover:shadow-md active:scale-[0.98] cursor-pointer"
+              className="w-full py-2.5 bg-[#b72c0f] border border-[#b72c0f] text-white font-semibold text-sm rounded-full transition-all duration-200 shadow-sm hover:bg-[#96240c] hover:border-[#96240c] hover:shadow-md hover:scale-105 active:scale-95 cursor-pointer"
             >
               Send Verification Code
             </button>

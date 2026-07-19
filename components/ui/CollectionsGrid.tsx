@@ -52,7 +52,7 @@ export default function CollectionsGrid({
 
   if (itemsToRender.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500">
+      <div className="text-center py-12 text-gray-500 dark:text-zinc-500">
         No collections found.
       </div>
     );
@@ -64,10 +64,10 @@ export default function CollectionsGrid({
         <Link
           key={collection.id}
           href={`/collection/${collection.id}`}
-          className="group block overflow-hidden rounded-3xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer"
+          className="group block overflow-hidden rounded-3xl bg-white dark:bg-[#141414] border border-gray-100 dark:border-[#262626] shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer"
         >
-          <div className="aspect-[4/3] flex gap-1 p-1 bg-white">
-            <div className="relative w-[66.6%] h-full overflow-hidden rounded-l-2xl">
+          <div className="aspect-[4/3] flex gap-1 p-1 bg-white dark:bg-[#141414]">
+            <div className="relative w-[66.6%] h-full overflow-hidden rounded-l-2xl bg-gray-100 dark:bg-[#1f1f1f]">
               {collection.images?.[0] ? (
                 <Image
                   src={collection.images[0]}
@@ -76,14 +76,14 @@ export default function CollectionsGrid({
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 />
               ) : (
-                <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400 text-xs">
+                <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-zinc-500 text-xs">
                   No Image
                 </div>
               )}
             </div>
 
             <div className="w-[33.3%] flex flex-col gap-1 h-full">
-              <div className="relative flex-1 w-full overflow-hidden rounded-tr-2xl bg-gray-50">
+              <div className="relative flex-1 w-full overflow-hidden rounded-tr-2xl bg-gray-50 dark:bg-[#1f1f1f]">
                 {collection.images?.[1] && (
                   <Image
                     src={collection.images[1]}
@@ -94,7 +94,7 @@ export default function CollectionsGrid({
                 )}
               </div>
 
-              <div className="relative flex-1 w-full overflow-hidden rounded-br-2xl bg-gray-50">
+              <div className="relative flex-1 w-full overflow-hidden rounded-br-2xl bg-gray-50 dark:bg-[#1f1f1f]">
                 {collection.images?.[2] && (
                   <Image
                     src={collection.images[2]}
@@ -107,15 +107,15 @@ export default function CollectionsGrid({
             </div>
           </div>
 
-          <div className="p-5 border-t border-gray-100">
-            <h3 className="text-base font-semibold tracking-tight text-gray-800 transition-colors group-hover:text-[#b72c0f]">
+          <div className="p-5 border-t border-gray-100 dark:border-[#262626]">
+            <h3 className="text-base font-semibold tracking-tight text-gray-800 dark:text-[#ededed] transition-colors group-hover:text-[#b72c0f] dark:group-hover:text-[#b72c0f]">
               {collection.title}
             </h3>
-            <p className="mt-1 text-xs text-gray-500 font-medium flex items-center gap-1.5">
+            <p className="mt-1 text-xs text-gray-500 dark:text-zinc-400 font-medium flex items-center gap-1.5">
               <span>{collection.imageCount} images</span>
               {collection.followers && (
                 <>
-                  <span className="text-gray-300">•</span>
+                  <span className="text-gray-300 dark:text-[#262626]">•</span>
                   <span>{collection.followers} followers</span>
                 </>
               )}

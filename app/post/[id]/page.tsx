@@ -58,11 +58,13 @@ export default function PostDetailPage() {
 
   if (!item) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 bg-white">
-        <p className="text-gray-500 font-medium">Post not found</p>
+      <div className="flex h-screen flex-col items-center justify-center gap-4 bg-white dark:bg-[#141414] transition-colors duration-200">
+        <p className="text-gray-500 dark:text-zinc-400 font-medium">
+          Post not found
+        </p>
         <button
           onClick={() => router.back()}
-          className="text-[#b72c0f] font-semibold hover:text-[#96240c] transition"
+          className="text-[#b72c0f] font-semibold hover:text-[#96240c] dark:text-[#d33a1c] dark:hover:text-[#b72c0f] transition"
         >
           Go Back
         </button>
@@ -82,9 +84,9 @@ export default function PostDetailPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white font-sans antialiased pb-10 relative">
+    <main className="min-h-screen bg-white dark:bg-[#141414] text-gray-900 dark:text-[#e5e5e5] font-sans antialiased pb-10 relative transition-colors duration-200">
       <div className="md:max-w-4xl md:mx-auto">
-        <div className="relative w-full bg-black/5 md:rounded-lg overflow-hidden">
+        <div className="relative w-full bg-black/5 dark:bg-zinc-900/50 md:rounded-lg overflow-hidden">
           <button
             onClick={() => router.back()}
             className="absolute top-4 left-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-sm transition hover:bg-black/40 cursor-pointer"
@@ -112,8 +114,8 @@ export default function PostDetailPage() {
           />
         </div>
 
-        <div className="relative border-b border-gray-100 px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4 text-gray-500">
+        <div className="relative border-b border-gray-100 dark:border-zinc-800/80 px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4 text-gray-500 dark:text-zinc-400">
             <ImageActionsDropdown
               item={item}
               onActionSuccess={(msg) => setToastMessage(msg)}
@@ -122,7 +124,7 @@ export default function PostDetailPage() {
 
             <button
               onClick={() => setIsModalOpen(true)}
-              className="w-9 h-9 rounded-full bg-white shadow-sm border border-gray-100/70 flex items-center justify-center text-gray-700 hover:text-[#b72c0f] transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer"
+              className="w-9 h-9 rounded-full bg-white dark:bg-[#1f1f1f] shadow-sm border border-gray-100/70 dark:border-zinc-800 flex items-center justify-center text-gray-700 dark:text-zinc-300 hover:text-[#b72c0f] dark:hover:text-[#b72c0f] transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -143,10 +145,10 @@ export default function PostDetailPage() {
 
           <button
             onClick={handleLikeToggle}
-            className={`absolute -top-7 right-4 flex h-14 w-14 items-center justify-center rounded-full shadow-md border border-gray-100/50 transition-all duration-200 transform active:scale-95 hover:scale-105 cursor-pointer ${
+            className={`absolute -top-7 right-4 flex h-14 w-14 items-center justify-center rounded-full shadow-md border transition-all duration-200 transform active:scale-95 hover:scale-105 cursor-pointer ${
               isLiked
-                ? "bg-[#b72c0f] text-white hover:bg-[#96240c]"
-                : "bg-white text-gray-500 hover:bg-gray-50 hover:text-[#b72c0f]"
+                ? "bg-[#b72c0f] text-white hover:bg-[#96240c] border-[#b72c0f]"
+                : "bg-white text-gray-500 hover:bg-gray-50 hover:text-[#b72c0f] border-gray-100/50 dark:bg-[#1f1f1f] dark:text-zinc-400 dark:border-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-[#d33a1c]"
             }`}
           >
             <svg
@@ -162,7 +164,7 @@ export default function PostDetailPage() {
 
         <div className="px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative h-11 w-11 rounded-full bg-gray-200 overflow-hidden border border-gray-100 cursor-pointer">
+            <div className="relative h-11 w-11 rounded-full bg-gray-200 dark:bg-zinc-800 overflow-hidden border border-gray-100 dark:border-zinc-800 cursor-pointer">
               <img
                 src="/hero.jpg"
                 alt={item.user}
@@ -170,10 +172,12 @@ export default function PostDetailPage() {
               />
             </div>
             <div>
-              <h3 className="font-bold text-gray-800 flex items-center gap-1 text-sm md:text-base cursor-pointer">
+              <h3 className="font-bold text-gray-800 dark:text-[#e5e5e5] flex items-center gap-1 text-sm md:text-base cursor-pointer">
                 {item.user}
               </h3>
-              <p className="text-xs text-gray-400">{item.time}</p>
+              <p className="text-xs text-gray-400 dark:text-zinc-500">
+                {item.time}
+              </p>
             </div>
           </div>
 
@@ -181,8 +185,8 @@ export default function PostDetailPage() {
             onClick={() => setIsFollowing(!isFollowing)}
             className={`rounded-full px-5 py-2 text-xs font-bold uppercase tracking-wider transition cursor-pointer ${
               isFollowing
-                ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                : "bg-[#b72c0f] text-white hover:bg-[#96240c]"
+                ? "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+                : "bg-[#b72c0f] text-white hover:bg-[#96240c] dark:bg-[#d33a1c] dark:hover:bg-[#b72c0f]"
             }`}
           >
             {isFollowing ? "Following" : "Follow"}
@@ -190,12 +194,12 @@ export default function PostDetailPage() {
         </div>
 
         <div className="px-4 py-2 space-y-4">
-          <div className="flex items-start gap-2 text-gray-600">
-            <span className="text-2xl font-serif text-gray-300 leading-none">
+          <div className="flex items-start gap-2 text-gray-600 dark:text-zinc-300">
+            <span className="text-2xl font-serif text-gray-300 dark:text-zinc-700 leading-none select-none">
               “
             </span>
             <p className="text-sm font-medium pt-1">peace</p>
-            <span className="text-2xl font-serif text-gray-300 stroke-none leading-none">
+            <span className="text-2xl font-serif text-gray-300 dark:text-zinc-700 stroke-none leading-none select-none">
               ”
             </span>
           </div>
@@ -205,21 +209,21 @@ export default function PostDetailPage() {
               <Link
                 key={tag}
                 href={`/tags/${tag}`}
-                className="rounded-full bg-gray-50 border border-gray-100 px-3 py-1 text-xs font-medium text-gray-500 hover:bg-gray-100 transition duration-200"
+                className="rounded-full bg-gray-50 border border-gray-100 dark:bg-[#1f1f1f] dark:border-zinc-800 px-3 py-1 text-xs font-medium text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800/80 transition duration-200"
               >
                 {tag}
               </Link>
             ))}
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-medium text-gray-500 pt-2 border-t border-gray-50">
+          <div className="flex items-center gap-2 text-xs font-medium text-gray-500 dark:text-zinc-400 pt-2 border-t border-gray-50 dark:border-zinc-900">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-4 h-4 text-gray-400"
+              className="w-4 h-4 text-gray-400 dark:text-zinc-500"
             >
               <path
                 strokeLinecap="round"
@@ -229,15 +233,15 @@ export default function PostDetailPage() {
             </svg>
             <span>
               loved by{" "}
-              <strong className="text-gray-700">
+              <strong className="text-gray-700 dark:text-zinc-300">
                 {isLiked ? item.hearts + 1 : item.hearts} people
               </strong>
             </span>
           </div>
         </div>
 
-        <div className="mt-10 border-t border-gray-100 pt-6 px-4">
-          <h4 className="text-sm font-semibold text-gray-500 mb-4 tracking-wide">
+        <div className="mt-10 border-t border-gray-100 dark:border-zinc-800/60 pt-6 px-4">
+          <h4 className="text-sm font-semibold text-gray-500 dark:text-zinc-400 mb-4 tracking-wide">
             You might like these too
           </h4>
 
@@ -246,7 +250,7 @@ export default function PostDetailPage() {
               <Link
                 key={rec.id}
                 href={`/post/${rec.id}`}
-                className="group aspect-square overflow-hidden bg-gray-50 rounded-xl border border-gray-100"
+                className="group aspect-square overflow-hidden bg-gray-50 dark:bg-[#1f1f1f] rounded-xl border border-gray-100 dark:border-zinc-800"
               >
                 <img
                   src={rec.src}

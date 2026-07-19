@@ -30,23 +30,23 @@ export default function ProfileWrapper({
   const getTabClass = (tab: "gallery" | "collections" | "loved") =>
     `px-4 py-2 rounded-full transition-colors text-xs md:text-sm font-semibold ${
       activeTab === tab
-        ? "bg-[#b72c0f]/10 text-[#b72c0f]"
-        : "text-gray-600 hover:bg-gray-200/50"
+        ? "bg-[#b72c0f]/10 dark:bg-[#b72c0f]/20 text-[#b72c0f]"
+        : "text-gray-600 dark:text-[#a3a3a3] hover:bg-gray-200/50 dark:hover:bg-[#262626]"
     }`;
 
   return (
-    <main className="min-h-screen bg-white font-sans antialiased text-gray-800">
+    <main className="min-h-screen bg-white dark:bg-[#141414] font-sans antialiased text-gray-800 dark:text-[#e5e5e5]">
       <section
         className="relative h-[40vh] min-h-[300px] w-full bg-cover bg-center"
         style={{ backgroundImage: `url('${userProfile.banner}')` }}
       >
-        <div className="absolute inset-0 bg-black/10 z-0" />
+        <div className="absolute inset-0 bg-black/10 dark:bg-black/30 z-0" />
       </section>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <section className="relative z-10 flex flex-col items-center text-center -mt-16 md:-mt-20">
           <div className="flex flex-col items-center gap-5">
-            <div className="relative h-28 w-28 md:h-36 md:w-36 overflow-hidden rounded-full border-4 border-[#FCFCFC] shadow-xl bg-white">
+            <div className="relative h-28 w-28 md:h-36 md:w-36 overflow-hidden rounded-full border-4 border-[#FCFCFC] dark:border-[#141414] shadow-xl bg-white dark:bg-[#1f1f1f]">
               <Image
                 src={userProfile.avatar}
                 alt={userProfile.name}
@@ -57,18 +57,18 @@ export default function ProfileWrapper({
             </div>
 
             <div className="flex flex-col items-center">
-              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tighter text-gray-950">
+              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tighter text-gray-950 dark:text-[#ededed]">
                 {userProfile.name}
               </h1>
               <p className="text-sm font-semibold text-[#b72c0f] mt-0.5 tracking-tight">
                 {userProfile.username}
               </p>
 
-              <p className="mt-3 text-sm md:text-base font-medium text-gray-700 max-w-lg leading-relaxed">
+              <p className="mt-3 text-sm md:text-base font-medium text-gray-700 dark:text-[#a3a3a3] max-w-lg leading-relaxed">
                 {userProfile.bio}
               </p>
 
-              <div className="mt-3 text-xs md:text-sm flex items-center gap-1.5 text-gray-500 font-medium">
+              <div className="mt-3 text-xs md:text-sm flex items-center gap-1.5 text-gray-500 dark:text-zinc-500 font-medium">
                 <span>{userProfile.location}</span>
                 <span>•</span>
                 <a
@@ -81,16 +81,16 @@ export default function ProfileWrapper({
                 </a>
               </div>
 
-              <div className="mt-3 flex items-center gap-4 text-xs md:text-sm font-medium text-gray-600">
+              <div className="mt-3 flex items-center gap-4 text-xs md:text-sm font-medium text-gray-600 dark:text-[#a3a3a3]">
                 <div>
-                  <span className="font-bold text-gray-900">
+                  <span className="font-bold text-gray-900 dark:text-[#ededed]">
                     {userProfile.followers}
                   </span>{" "}
                   followers
                 </div>
-                <div className="text-gray-300">•</div>
+                <div className="text-gray-300 dark:text-[#262626]">•</div>
                 <div>
-                  <span className="font-bold text-gray-900">
+                  <span className="font-bold text-gray-900 dark:text-[#ededed]">
                     {userProfile.following}
                   </span>{" "}
                   following
@@ -99,7 +99,7 @@ export default function ProfileWrapper({
             </div>
           </div>
 
-          <nav className="mt-8 border-t border-gray-200/60 pt-6 w-full flex justify-center">
+          <nav className="mt-8 border-t border-gray-200/60 dark:border-[#262626]/60 pt-6 w-full flex justify-center">
             <ul className="flex items-center gap-1.5">
               <li>
                 <Link

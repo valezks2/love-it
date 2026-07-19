@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface Notification {
@@ -83,10 +82,13 @@ export default function NotificationsPage() {
   const hasUnread = notifications.some((n) => !n.isRead);
 
   const renderBadgeIcon = (type: Notification["type"]) => {
+    const baseBadgeClass =
+      "absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-white shadow-sm ring-2 ring-white dark:ring-[#1f1f1f]";
+
     switch (type) {
       case "like":
         return (
-          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white shadow-sm ring-2 ring-white">
+          <span className={`${baseBadgeClass} bg-red-500`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -99,7 +101,7 @@ export default function NotificationsPage() {
         );
       case "comment":
         return (
-          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-white shadow-sm ring-2 ring-white">
+          <span className={`${baseBadgeClass} bg-blue-500`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -116,7 +118,7 @@ export default function NotificationsPage() {
         );
       case "save":
         return (
-          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white shadow-sm ring-2 ring-white">
+          <span className={`${baseBadgeClass} bg-emerald-500`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -133,7 +135,7 @@ export default function NotificationsPage() {
         );
       default:
         return (
-          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-500 text-white shadow-sm ring-2 ring-white">
+          <span className={`${baseBadgeClass} bg-gray-500 dark:bg-zinc-600`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -152,14 +154,14 @@ export default function NotificationsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white font-sans antialiased relative pb-16">
+    <main className="min-h-screen bg-white dark:bg-[#141414] text-gray-900 dark:text-[#e5e5e5] font-sans antialiased relative pb-16 transition-colors duration-200">
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-[#e5e5e5] md:text-3xl">
               Notifications
             </h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 dark:text-zinc-400 mt-1">
               Stay updated with your community interactions
             </p>
           </div>
@@ -174,14 +176,14 @@ export default function NotificationsPage() {
           )}
         </div>
 
-        <div className="mb-6 border-b border-gray-100">
+        <div className="mb-6 border-b border-gray-100 dark:border-zinc-800">
           <div className="flex gap-6">
             <button
               onClick={() => setFilter("all")}
               className={`pb-3 text-sm font-bold transition-all border-b-2 cursor-pointer ${
                 filter === "all"
                   ? "border-[#b72c0f] text-[#b72c0f]"
-                  : "border-transparent text-gray-400 hover:text-gray-700"
+                  : "border-transparent text-gray-400 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300"
               }`}
             >
               All Activity
@@ -191,7 +193,7 @@ export default function NotificationsPage() {
               className={`pb-3 text-sm font-bold transition-all border-b-2 cursor-pointer relative ${
                 filter === "unread"
                   ? "border-[#b72c0f] text-[#b72c0f]"
-                  : "border-transparent text-gray-400 hover:text-gray-700"
+                  : "border-transparent text-gray-400 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300"
               }`}
             >
               Unread
@@ -202,10 +204,10 @@ export default function NotificationsPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-[#1f1f1f] rounded-2xl border border-gray-100 dark:border-zinc-800 shadow-sm overflow-hidden">
           {filteredNotifications.length === 0 ? (
-            <div className="py-20 text-center text-sm text-gray-400 flex flex-col items-center gap-3">
-              <div className="p-4 bg-gray-50 rounded-full text-gray-300">
+            <div className="py-20 text-center text-sm text-gray-400 dark:text-zinc-500 flex flex-col items-center gap-3">
+              <div className="p-4 bg-gray-50 dark:bg-[#262626] rounded-full text-gray-300 dark:text-zinc-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -221,23 +223,23 @@ export default function NotificationsPage() {
                   />
                 </svg>
               </div>
-              <span className="text-base font-semibold text-gray-500">
+              <span className="text-base font-semibold text-gray-500 dark:text-zinc-400">
                 No notifications here
               </span>
-              <p className="text-xs text-gray-400 max-w-xs">
+              <p className="text-xs text-gray-400 dark:text-zinc-500 max-w-xs">
                 {filter === "unread"
                   ? "You've caught up with everything!"
                   : "When users interact with your collections, they'll show up here."}
               </p>
             </div>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-gray-100 dark:divide-zinc-800">
               {filteredNotifications.map((notif) => (
                 <div
                   key={notif.id}
                   onClick={() => toggleReadStatus(notif.id)}
-                  className={`group flex items-center gap-4 p-4 text-left transition-all hover:bg-gray-50/70 cursor-pointer relative ${
-                    !notif.isRead ? "bg-red-50/10" : ""
+                  className={`group flex items-center gap-4 p-4 text-left transition-all hover:bg-gray-50/70 dark:hover:bg-[#262626]/50 cursor-pointer relative ${
+                    !notif.isRead ? "bg-red-50/10 dark:bg-red-500/5" : ""
                   }`}
                 >
                   {!notif.isRead && (
@@ -248,9 +250,9 @@ export default function NotificationsPage() {
                     <img
                       src={notif.avatar || "/logo.png"}
                       alt="User dynamic action profile indicator"
-                      className={`w-11 h-11 rounded-full object-cover bg-gray-50 ${
+                      className={`w-11 h-11 rounded-full object-cover bg-gray-50 dark:bg-zinc-800 ${
                         notif.type === "system"
-                          ? "p-1.5 object-contain border border-gray-200"
+                          ? "p-1.5 object-contain border border-gray-200 dark:border-zinc-700"
                           : ""
                       }`}
                     />
@@ -259,11 +261,15 @@ export default function NotificationsPage() {
 
                   <div className="flex-1 min-w-0">
                     <p
-                      className={`text-sm text-gray-700 leading-normal ${!notif.isRead ? "font-medium text-gray-900" : ""}`}
+                      className={`text-sm text-gray-700 dark:text-zinc-300 leading-normal ${
+                        !notif.isRead
+                          ? "font-medium text-gray-900 dark:text-[#e5e5e5]"
+                          : ""
+                      }`}
                     >
                       {notif.text}
                     </p>
-                    <span className="text-xs font-medium text-gray-400 block mt-1">
+                    <span className="text-xs font-medium text-gray-400 dark:text-zinc-500 block mt-1">
                       {notif.time}
                     </span>
                   </div>
@@ -273,13 +279,13 @@ export default function NotificationsPage() {
                       <img
                         src={notif.imagePreview}
                         alt="Content item attachment preview"
-                        className="w-12 h-12 rounded-xl object-cover border border-gray-100 shadow-2xs"
+                        className="w-12 h-12 rounded-xl object-cover border border-gray-100 dark:border-zinc-800 shadow-2xs"
                       />
                     )}
 
                     <button
                       onClick={(e) => deleteNotification(notif.id, e)}
-                      className="p-1.5 text-gray-300 hover:text-gray-500 rounded-lg hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-all duration-150"
+                      className="p-1.5 text-gray-300 dark:text-zinc-600 hover:text-gray-500 dark:hover:text-zinc-400 rounded-lg hover:bg-gray-100 dark:hover:bg-[#262626] opacity-0 group-hover:opacity-100 transition-all duration-150"
                       title="Delete notification"
                     >
                       <svg

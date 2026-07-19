@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="mt-10 bg-white py-8 shadow-sm">
+    <footer className="bg-white dark:bg-nav py-8 transition-colors duration-300">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-3 md:gap-8">
           <div className="flex flex-col gap-3">
@@ -17,21 +17,21 @@ export default function Footer() {
                 priority
               />
             </div>
-            <p className="mt-1 text-sm leading-relaxed text-gray-500 max-w-xs">
+            <p className="mt-1 text-sm leading-relaxed text-gray-500 dark:text-muted max-w-xs">
               Share, collect, and discover the content you love. Inspired by the
               authentic essence and aesthetic of We Heart It.
             </p>
           </div>
 
           <div className="flex flex-col gap-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-muted/60">
               Links
             </h3>
-            <ul className="flex flex-col gap-2.5 text-sm font-medium text-gray-600">
+            <ul className="flex flex-col gap-2.5 text-sm font-medium text-gray-600 dark:text-muted">
               <li>
                 <Link
                   href="/"
-                  className="transition-colors duration-200 hover:text-[#b72c0f]"
+                  className="transition-colors duration-200 hover:text-[#b72c0f] dark:hover:text-[#b72c0f]"
                 >
                   Home
                 </Link>
@@ -39,7 +39,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/explore"
-                  className="transition-colors duration-200 hover:text-[#b72c0f]"
+                  className="transition-colors duration-200 hover:text-[#b72c0f] dark:hover:text-[#b72c0f]"
                 >
                   Explore
                 </Link>
@@ -47,7 +47,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/login"
-                  className="transition-colors duration-200 hover:text-[#b72c0f]"
+                  className="transition-colors duration-200 hover:text-[#b72c0f] dark:hover:text-[#b72c0f]"
                 >
                   Log In
                 </Link>
@@ -55,7 +55,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/signup"
-                  className="transition-colors duration-200 hover:text-[#b72c0f]"
+                  className="transition-colors duration-200 hover:text-[#b72c0f] dark:hover:text-[#b72c0f]"
                 >
                   Sign Up
                 </Link>
@@ -64,14 +64,14 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col gap-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-muted/60">
               Legal
             </h3>
-            <ul className="flex flex-col gap-2.5 text-sm font-medium text-gray-600">
+            <ul className="flex flex-col gap-2.5 text-sm font-medium text-gray-600 dark:text-muted">
               <li>
                 <Link
                   href="/privacy"
-                  className="transition-colors duration-200 hover:text-[#b72c0f]"
+                  className="transition-colors duration-200 hover:text-[#b72c0f] dark:hover:text-[#b72c0f]"
                 >
                   Privacy Policy
                 </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/terms"
-                  className="transition-colors duration-200 hover:text-[#b72c0f]"
+                  className="transition-colors duration-200 hover:text-[#b72c0f] dark:hover:text-[#b72c0f]"
                 >
                   Terms of Service
                 </Link>
@@ -87,7 +87,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="transition-colors duration-200 hover:text-[#b72c0f]"
+                  className="transition-colors duration-200 hover:text-[#b72c0f] dark:hover:text-[#b72c0f]"
                 >
                   About Us
                 </Link>
@@ -96,7 +96,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-gray-200/40 pt-6 text-center text-xs tracking-wide text-gray-400">
+        <div className="mt-10 border-t border-gray-200/40 dark:border-border-custom pt-6 text-center text-xs tracking-wide text-gray-400 dark:text-muted/50">
           &copy; {new Date().getFullYear()} Love It. All rights reserved.
         </div>
       </div>

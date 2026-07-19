@@ -76,7 +76,7 @@ export default function ShareModal({
       name: "X",
       icon: (
         <svg
-          className="w-4 h-4 text-black shrink-0"
+          className="w-4 h-4 text-black dark:text-white shrink-0"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
@@ -100,7 +100,7 @@ export default function ShareModal({
       name: "Email",
       icon: (
         <svg
-          className="w-5 h-5 text-gray-600 shrink-0"
+          className="w-5 h-5 text-gray-600 dark:text-zinc-400 shrink-0"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -119,21 +119,21 @@ export default function ShareModal({
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+        className="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-gray-100 z-10 flex flex-col gap-5"
+        className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white dark:bg-[#141414] p-6 shadow-2xl border border-gray-100 dark:border-[#262626] z-10 flex flex-col gap-5"
       >
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-bold text-gray-900 tracking-tight">
+          <h3 className="text-base font-bold text-gray-900 dark:text-[#ededed] tracking-tight">
             Share
           </h3>
           <button
             onClick={onClose}
-            className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
+            className="rounded-full p-1.5 text-gray-400 dark:text-zinc-500 hover:bg-gray-100 dark:hover:bg-[#262626] hover:text-gray-700 dark:hover:text-[#ededed] transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -152,18 +152,18 @@ export default function ShareModal({
           </button>
         </div>
 
-        <div className="flex items-center justify-between gap-3 pl-4 pr-1.5 py-1.5 border border-gray-200 rounded-full bg-gray-50/50 focus-within:bg-white focus-within:border-[#b72c0f] focus-within:ring-1 focus-within:ring-[#b72c0f] transition-all">
+        <div className="flex items-center justify-between gap-3 pl-4 pr-1.5 py-1.5 border border-gray-200 dark:border-[#262626] rounded-full bg-gray-50/50 dark:bg-[#1f1f1f] focus-within:bg-white dark:focus-within:bg-[#141414] focus-within:border-[#b72c0f] focus-within:ring-1 focus-within:ring-[#b72c0f] transition-all">
           <input
             type="text"
             value={shareUrl}
             readOnly
-            className="w-full bg-transparent text-sm text-gray-600 focus:outline-none truncate"
+            className="w-full bg-transparent text-sm text-gray-600 dark:text-[#e5e5e5] focus:outline-none truncate"
           />
           <button
             onClick={handleCopyLink}
             className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-200 hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer ${
               copySuccess
-                ? "bg-[#fdf2f0] text-[#b72c0f]"
+                ? "bg-[#fdf2f0] dark:bg-[#b72c0f]/20 text-[#b72c0f]"
                 : "bg-[#b72c0f] text-white hover:bg-[#96240c] shadow-sm"
             }`}
           >
@@ -177,10 +177,10 @@ export default function ShareModal({
               key={platform.name}
               className="flex flex-col items-center gap-2 group cursor-pointer"
             >
-              <div className="h-12 w-12 flex items-center justify-center rounded-full bg-gray-50 border border-gray-100 shadow-sm transition-all duration-200 group-hover:bg-gray-100 group-hover:scale-105 active:scale-95">
+              <div className="h-12 w-12 flex items-center justify-center rounded-full bg-gray-50 dark:bg-[#1f1f1f] border border-gray-100 dark:border-[#262626] shadow-sm transition-all duration-200 group-hover:bg-gray-100 dark:group-hover:bg-[#262626] group-hover:scale-105 active:scale-95">
                 {platform.icon}
               </div>
-              <span className="text-[11px] font-medium text-gray-500 group-hover:text-gray-900 transition-colors truncate max-w-full">
+              <span className="text-[11px] font-medium text-gray-500 dark:text-zinc-400 group-hover:text-gray-900 dark:group-hover:text-[#ededed] transition-colors truncate max-w-full">
                 {platform.name}
               </span>
             </button>

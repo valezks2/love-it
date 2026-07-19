@@ -70,11 +70,13 @@ export default function CollectionDetailPage() {
 
   if (!collection) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 bg-white">
-        <p className="text-gray-500 font-medium">Collection not found</p>
+      <div className="flex h-screen flex-col items-center justify-center gap-4 bg-white dark:bg-[#141414] transition-colors duration-200">
+        <p className="text-gray-500 dark:text-zinc-400 font-medium">
+          Collection not found
+        </p>
         <button
           onClick={() => router.back()}
-          className="text-[#b72c0f] font-semibold hover:text-[#96240c] transition"
+          className="text-[#b72c0f] font-semibold hover:text-[#96240c] transition cursor-pointer"
         >
           Go Back
         </button>
@@ -129,12 +131,12 @@ export default function CollectionDetailPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white font-sans antialiased text-gray-800 pb-16 relative">
+    <main className="min-h-screen bg-white dark:bg-[#141414] font-sans antialiased text-gray-800 dark:text-[#e5e5e5] pb-16 relative transition-colors duration-200">
       <section
         className="relative h-[35vh] min-h-[240px] w-full bg-cover bg-center flex items-end px-4 pb-6 md:px-8 md:pb-10"
         style={{ backgroundImage: `url('${collection.bannerImage}')` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/30 z-0" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40 z-0" />
 
         <div className="absolute top-4 left-4 z-10">
           <button
@@ -195,7 +197,7 @@ export default function CollectionDetailPage() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-5">
         <section className="flex items-center gap-3">
-          <div className="relative h-10 w-10 rounded-full overflow-hidden border border-gray-100 bg-gray-200">
+          <div className="relative h-10 w-10 rounded-full overflow-hidden border border-gray-100 dark:border-zinc-800 bg-gray-200 dark:bg-zinc-800">
             <Image
               src={collection.creator.avatar}
               alt={collection.creator.name}
@@ -204,21 +206,21 @@ export default function CollectionDetailPage() {
             />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-gray-600 transition">
+            <h2 className="text-sm font-bold text-gray-600 dark:text-zinc-400 transition">
               {collection.creator.username}
             </h2>
           </div>
         </section>
 
         {collection.description && (
-          <p className="mt-3 text-sm font-medium text-gray-400 max-w-2xl leading-relaxed">
+          <p className="mt-3 text-sm font-medium text-gray-400 dark:text-zinc-500 max-w-2xl leading-relaxed">
             {collection.description}
           </p>
         )}
 
-        <section className="mt-5 py-3 border-y border-gray-100 flex items-center justify-between text-sm font-bold tracking-tight">
-          <div className="text-gray-400 font-semibold">
-            <span className="text-gray-900 font-extrabold mr-1">
+        <section className="mt-5 py-3 border-y border-gray-100 dark:border-zinc-800 flex items-center justify-between text-sm font-bold tracking-tight">
+          <div className="text-gray-400 dark:text-zinc-500 font-semibold">
+            <span className="text-gray-900 dark:text-[#e5e5e5] font-extrabold mr-1">
               {collection.heartsCount}
             </span>{" "}
             Hearts

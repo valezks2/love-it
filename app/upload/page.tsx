@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useRef, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Toast from "@/components/ui/Toast";
@@ -137,7 +136,7 @@ export default function UploadPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white font-sans antialiased pt-12 md:pt-16 pb-16 relative">
+    <main className="min-h-screen bg-white dark:bg-[#141414] font-sans antialiased pt-12 md:pt-16 pb-16 relative transition-colors duration-200">
       <div className="md:max-w-4xl md:mx-auto px-4 md:px-0">
         <form
           onSubmit={handleSubmit}
@@ -170,12 +169,12 @@ export default function UploadPage() {
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               onClick={() => !imagePreview && fileInputRef.current?.click()}
-              className={`relative aspect-square w-full rounded-2xl bg-black/5 overflow-hidden border flex flex-col items-center justify-center p-4 text-center transition-all duration-200 ${
+              className={`relative aspect-square w-full rounded-2xl overflow-hidden border flex flex-col items-center justify-center p-4 text-center transition-all duration-200 ${
                 imagePreview
-                  ? "border-transparent"
+                  ? "border-transparent bg-black/5 dark:bg-[#1f1f1f]"
                   : isDragging
                     ? "border-[#b72c0f] bg-[#b72c0f]/5 text-[#b72c0f]"
-                    : "border-gray-100 bg-gray-50 text-gray-400 hover:border-gray-200 cursor-pointer"
+                    : "border-gray-100 dark:border-[#262626] bg-gray-50 dark:bg-[#1f1f1f] text-gray-400 dark:text-zinc-500 hover:border-gray-200 dark:hover:border-zinc-700 cursor-pointer"
               }`}
             >
               <input
@@ -200,7 +199,7 @@ export default function UploadPage() {
                         e.stopPropagation();
                         fileInputRef.current?.click();
                       }}
-                      className="px-4 py-2 bg-white text-gray-700 text-xs font-semibold rounded-full shadow-sm hover:bg-gray-50 transition cursor-pointer"
+                      className="px-4 py-2 bg-white dark:bg-[#141414] text-gray-700 dark:text-[#e5e5e5] text-xs font-semibold rounded-full shadow-sm hover:bg-gray-50 dark:hover:bg-[#262626] transition cursor-pointer"
                     >
                       Change
                     </button>
@@ -218,7 +217,7 @@ export default function UploadPage() {
                 </div>
               ) : (
                 <div className="flex flex-col items-center pointer-events-none px-4">
-                  <div className="p-4 bg-white shadow-sm border border-gray-100 rounded-full mb-3 text-gray-400">
+                  <div className="p-4 bg-white dark:bg-[#141414] shadow-sm border border-gray-100 dark:border-[#262626] rounded-full mb-3 text-gray-400 dark:text-zinc-500">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -234,10 +233,10 @@ export default function UploadPage() {
                       />
                     </svg>
                   </div>
-                  <p className="text-sm font-semibold text-gray-700">
+                  <p className="text-sm font-semibold text-gray-700 dark:text-[#e5e5e5]">
                     Drag and drop your inspiration canvas
                   </p>
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-xs text-gray-400 dark:text-zinc-500 mt-1">
                     or select a file from device storage
                   </p>
                 </div>
@@ -253,7 +252,7 @@ export default function UploadPage() {
           <div className="md:col-span-5 space-y-5">
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                <label className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500">
                   Choose a collection
                 </label>
                 <button
@@ -272,7 +271,7 @@ export default function UploadPage() {
                     value={newCollectionName}
                     onChange={(e) => setNewCollectionName(e.target.value)}
                     placeholder="Collection name..."
-                    className="flex-1 py-2.5 px-4 bg-gray-50 border border-gray-100 rounded-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f] transition-all"
+                    className="flex-1 py-2.5 px-4 bg-gray-50 dark:bg-[#1f1f1f] border border-gray-100 dark:border-[#262626] rounded-full text-sm text-gray-700 dark:text-[#e5e5e5] placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none focus:bg-white dark:focus:bg-[#141414] focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f] transition-all"
                   />
                   <button
                     type="button"
@@ -288,16 +287,22 @@ export default function UploadPage() {
                     id="collection"
                     value={selectedCollection}
                     onChange={(e) => setSelectedCollection(e.target.value)}
-                    className="w-full py-2.5 px-4 bg-gray-50 border border-gray-200 rounded-full text-sm text-gray-700 appearance-none focus:outline-none focus:bg-white focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f] cursor-pointer"
+                    className="w-full py-2.5 px-4 bg-gray-50 dark:bg-[#1f1f1f] border border-gray-200 dark:border-[#262626] rounded-full text-sm text-gray-700 dark:text-[#e5e5e5] appearance-none focus:outline-none focus:bg-white dark:focus:bg-[#141414] focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f] cursor-pointer"
                   >
-                    <option value="">Profile</option>
+                    <option value="" className="dark:bg-[#141414]">
+                      Profile
+                    </option>
                     {collections.map((col) => (
-                      <option key={col.id} value={col.id}>
+                      <option
+                        key={col.id}
+                        value={col.id}
+                        className="dark:bg-[#141414]"
+                      >
                         {col.name}
                       </option>
                     ))}
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400 dark:text-zinc-500">
                     <svg
                       className="fill-current h-4 w-4"
                       xmlns="http://www.w3.org/2000/svg"
@@ -313,12 +318,12 @@ export default function UploadPage() {
             <div className="space-y-1.5">
               <label
                 htmlFor="description"
-                className="text-xs font-bold uppercase tracking-wider text-gray-400"
+                className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500"
               >
                 Description
               </label>
-              <div className="relative flex items-start bg-gray-50 rounded-2xl border border-gray-200 p-3.5 focus-within:bg-white focus-within:border-[#b72c0f] focus-within:ring-1 focus-within:ring-[#b72c0f] transition-all">
-                <span className="text-2xl font-serif text-gray-300 leading-none mr-1 select-none">
+              <div className="relative flex items-start bg-gray-50 dark:bg-[#1f1f1f] rounded-2xl border border-gray-200 dark:border-[#262626] p-3.5 focus-within:bg-white dark:focus-within:bg-[#141414] focus-within:border-[#b72c0f] focus-within:ring-1 focus-within:ring-[#b72c0f] transition-all">
+                <span className="text-2xl font-serif text-gray-300 dark:text-zinc-700 leading-none mr-1 select-none">
                   “
                 </span>
                 <textarea
@@ -327,9 +332,9 @@ export default function UploadPage() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="It's easy to get away by lying..."
-                  className="w-full bg-transparent text-sm text-gray-700 placeholder-gray-400 font-medium resize-none focus:outline-none pt-0.5"
+                  className="w-full bg-transparent text-sm text-gray-700 dark:text-[#e5e5e5] placeholder-gray-400 dark:placeholder-zinc-500 font-medium resize-none focus:outline-none pt-0.5"
                 />
-                <span className="text-2xl font-serif text-gray-300 leading-none ml-1 align-bottom self-end select-none">
+                <span className="text-2xl font-serif text-gray-300 dark:text-zinc-700 leading-none ml-1 align-bottom self-end select-none">
                   ”
                 </span>
               </div>
@@ -338,7 +343,7 @@ export default function UploadPage() {
             <div className="space-y-1.5">
               <label
                 htmlFor="tags"
-                className="text-xs font-bold uppercase tracking-wider text-gray-400"
+                className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500"
               >
                 Describe the image with tags
               </label>
@@ -349,9 +354,9 @@ export default function UploadPage() {
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={handleAddTag}
                 placeholder="E.g. Black and White, Girl, Trees"
-                className="w-full py-2.5 px-4 bg-gray-50 border border-gray-200 rounded-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f] transition-all"
+                className="w-full py-2.5 px-4 bg-gray-50 dark:bg-[#1f1f1f] border border-gray-200 dark:border-[#262626] rounded-full text-sm text-gray-700 dark:text-[#e5e5e5] placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none focus:bg-white dark:focus:bg-[#141414] focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f] transition-all"
               />
-              <p className="text-[11px] text-gray-400 tracking-normal pl-3">
+              <p className="text-[11px] text-gray-400 dark:text-zinc-500 tracking-normal pl-3">
                 Write keywords separated with commas
               </p>
 
@@ -360,13 +365,13 @@ export default function UploadPage() {
                   {tags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center gap-1 rounded-full bg-gray-50 border border-gray-200 px-3 py-1 text-xs font-medium text-gray-500"
+                      className="inline-flex items-center gap-1 rounded-full bg-gray-50 dark:bg-[#1f1f1f] border border-gray-200 dark:border-[#262626] px-3 py-1 text-xs font-medium text-gray-500 dark:text-zinc-400"
                     >
                       {tag}
                       <button
                         type="button"
                         onClick={() => handleRemoveTag(tag)}
-                        className="text-gray-400 hover:text-[#b72c0f] cursor-pointer font-bold focus:outline-none"
+                        className="text-gray-400 dark:text-zinc-500 hover:text-[#b72c0f] dark:hover:text-[#b72c0f] cursor-pointer font-bold focus:outline-none"
                       >
                         ✕
                       </button>

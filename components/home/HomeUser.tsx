@@ -60,16 +60,16 @@ export default function HomeUser() {
   };
 
   return (
-    <main className="min-h-screen bg-white font-sans antialiased relative">
+    <main className="min-h-screen bg-white dark:bg-[#141414] text-gray-900 dark:text-[#e5e5e5] font-sans antialiased relative transition-colors duration-200">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mb-10 border-b border-gray-200">
+        <div className="mb-10 border-b border-gray-200 dark:border-zinc-800">
           <div className="flex gap-8 justify-center sm:justify-start">
             <button
               onClick={() => setActiveTab("photos")}
               className={`pb-4 text-base font-bold transition-all border-b-2 cursor-pointer ${
                 activeTab === "photos"
-                  ? "border-b-2 border-[#b72c0f] text-[#b72c0f]"
-                  : "border-transparent text-gray-500 hover:text-gray-800"
+                  ? "border-[#b72c0f] text-[#b72c0f]"
+                  : "border-transparent text-gray-500 hover:text-gray-800 dark:text-zinc-400 dark:hover:text-zinc-200"
               }`}
             >
               Photos
@@ -78,8 +78,8 @@ export default function HomeUser() {
               onClick={() => setActiveTab("collections")}
               className={`pb-4 text-base font-bold transition-all border-b-2 cursor-pointer ${
                 activeTab === "collections"
-                  ? "border-b-2 border-[#b72c0f] text-[#b72c0f]"
-                  : "border-transparent text-gray-500 hover:text-gray-800"
+                  ? "border-[#b72c0f] text-[#b72c0f]"
+                  : "border-transparent text-gray-500 hover:text-gray-800 dark:text-zinc-400 dark:hover:text-zinc-200"
               }`}
             >
               Collections
@@ -90,8 +90,8 @@ export default function HomeUser() {
         {activeTab === "photos" ? (
           <div className="space-y-14">
             <section>
-              <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
-                <h2 className="text-xl font-bold tracking-tight text-gray-800 md:text-2xl">
+              <div className="mb-6 flex items-center justify-between border-b border-gray-100 dark:border-zinc-900 pb-4">
+                <h2 className="text-xl font-bold tracking-tight text-gray-800 dark:text-[#e5e5e5] md:text-2xl">
                   Top Today Images
                 </h2>
               </div>
@@ -106,8 +106,8 @@ export default function HomeUser() {
             </section>
 
             <section>
-              <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
-                <h2 className="text-xl font-bold tracking-tight text-gray-800 md:text-2xl">
+              <div className="mb-6 flex items-center justify-between border-b border-gray-100 dark:border-zinc-900 pb-4">
+                <h2 className="text-xl font-bold tracking-tight text-gray-800 dark:text-[#e5e5e5] md:text-2xl">
                   Following
                 </h2>
               </div>
@@ -122,8 +122,8 @@ export default function HomeUser() {
             </section>
 
             <section>
-              <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
-                <h2 className="text-xl font-bold tracking-tight text-gray-800 md:text-2xl">
+              <div className="mb-6 flex items-center justify-between border-b border-gray-100 dark:border-zinc-900 pb-4">
+                <h2 className="text-xl font-bold tracking-tight text-gray-800 dark:text-[#e5e5e5] md:text-2xl">
                   Favorite Tags
                 </h2>
               </div>

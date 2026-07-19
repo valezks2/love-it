@@ -66,45 +66,48 @@ export default function TagResultsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
-          Results for the tag{" "}
-          <span className="text-[#b72c0f]">"{currentTag}"</span>{" "}
-        </h1>
-        <p className="mt-2 text-sm text-gray-500 font-medium">
-          We found {filteredPhotos.length}{" "}
-          {filteredPhotos.length === 1 ? "photo" : "photos"} matching this tag.
-        </p>
-      </div>
-
-      {filteredPhotos.length === 0 ? (
-        <div className="py-20 text-center text-gray-500 font-medium">
-          No photos found matching this tag.
+    <div className="min-h-screen bg-white dark:bg-[#141414] transition-colors duration-200">
+      <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-[#e5e5e5] md:text-3xl">
+            Results for the tag{" "}
+            <span className="text-[#b72c0f]">"{currentTag}"</span>{" "}
+          </h1>
+          <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400 font-medium">
+            We found {filteredPhotos.length}{" "}
+            {filteredPhotos.length === 1 ? "photo" : "photos"} matching this
+            tag.
+          </p>
         </div>
-      ) : (
-        <ImageGrid
-          items={filteredPhotos}
-          sectionPrefix="tags-gallery"
-          likedItems={likedItems}
-          onToggleLike={toggleLike}
-          onOpenCollectionModal={handleOpenModal}
-          onToastMessage={showToast}
-        />
-      )}
 
-      {isModalOpen && selectedItem && (
-        <AddToCollectionModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          imageSrc={selectedItem.src}
-          imageAlt={selectedItem.alt}
-        />
-      )}
+        {filteredPhotos.length === 0 ? (
+          <div className="py-20 text-center text-gray-500 dark:text-zinc-500 font-medium">
+            No photos found matching this tag.
+          </div>
+        ) : (
+          <ImageGrid
+            items={filteredPhotos}
+            sectionPrefix="tags-gallery"
+            likedItems={likedItems}
+            onToggleLike={toggleLike}
+            onOpenCollectionModal={handleOpenModal}
+            onToastMessage={showToast}
+          />
+        )}
 
-      {toastMessage && (
-        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
-      )}
+        {isModalOpen && selectedItem && (
+          <AddToCollectionModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            imageSrc={selectedItem.src}
+            imageAlt={selectedItem.alt}
+          />
+        )}
+
+        {toastMessage && (
+          <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+        )}
+      </div>
     </div>
   );
 }

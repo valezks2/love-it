@@ -97,7 +97,7 @@ export default function ImageActionsDropdown({
         className={`flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer ${
           isDropdownOpen
             ? "bg-[#b72c0f] text-white"
-            : "bg-white/95 text-gray-700 hover:bg-white hover:text-[#b72c0f]"
+            : "bg-white/95 dark:bg-[#262626]/90 text-gray-700 dark:text-zinc-300 hover:bg-white dark:hover:bg-[#333] hover:text-[#b72c0f]"
         }`}
       >
         <svg
@@ -120,24 +120,24 @@ export default function ImageActionsDropdown({
         <div
           className={`absolute ${
             align === "right" ? "right-0" : "left-0"
-          } mt-2 w-36 origin-top-right rounded-xl bg-white p-1.5 shadow-lg border border-gray-100 ring-1 ring-black/5 z-30 animate-fadeIn`}
+          } mt-2 w-36 origin-top-right rounded-xl bg-white dark:bg-[#1f1f1f] p-1.5 shadow-lg border border-gray-100 dark:border-zinc-800 ring-1 ring-black/5 dark:ring-white/10 z-30 animate-fadeIn`}
         >
           <button
             onClick={() => handleDropdownAction("Download")}
-            className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-gray-700 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+            className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-zinc-300 rounded-lg hover:bg-gray-50 dark:hover:bg-[#262626] transition-colors cursor-pointer"
           >
             Download
           </button>
           <button
             onClick={() => handleDropdownAction("Share")}
-            className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-gray-700 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+            className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-zinc-300 rounded-lg hover:bg-gray-50 dark:hover:bg-[#262626] transition-colors cursor-pointer"
           >
             Share
           </button>
-          <hr className="my-1 border-gray-100" />
+          <hr className="my-1 border-gray-100 dark:border-zinc-800" />
           <button
             onClick={() => handleDropdownAction("Report")}
-            className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-red-600 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
+            className="flex w-full items-center px-3 py-2 text-left text-xs font-semibold text-red-600 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors cursor-pointer"
           >
             Report
           </button>

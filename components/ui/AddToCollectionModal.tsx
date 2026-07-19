@@ -76,10 +76,10 @@ export default function AddToCollectionModal({
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-gray-100 z-10 flex flex-col gap-4 max-h-[85vh]">
+      <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white dark:bg-nav p-6 shadow-2xl border border-gray-100 dark:border-border-custom z-10 flex flex-col gap-4 max-h-[85vh] transition-colors duration-300">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100 border border-gray-200">
+            <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100 dark:bg-background border border-gray-200 dark:border-border-custom">
               <Image
                 src={imageSrc}
                 alt={imageAlt}
@@ -87,14 +87,14 @@ export default function AddToCollectionModal({
                 className="object-cover"
               />
             </div>
-            <h3 className="text-base font-bold text-gray-900 tracking-tight">
+            <h3 className="text-base font-bold text-gray-900 dark:text-main tracking-tight">
               Save to collection
             </h3>
           </div>
 
           <button
             onClick={onClose}
-            className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
+            className="rounded-full p-1.5 text-gray-400 dark:text-muted hover:bg-gray-100 dark:hover:bg-background hover:text-gray-700 dark:hover:text-main transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +120,7 @@ export default function AddToCollectionModal({
               placeholder="Search your collections..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full py-2 pl-9 pr-4 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-gray-300 transition-all"
+              className="w-full py-2 pl-9 pr-4 bg-gray-50 dark:bg-background border border-gray-200 dark:border-border-custom rounded-2xl text-sm text-gray-700 dark:text-main placeholder-gray-400 dark:placeholder-muted/50 focus:outline-none focus:bg-white dark:focus:bg-background focus:border-gray-300 dark:focus:border-border-custom transition-all"
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +128,7 @@ export default function AddToCollectionModal({
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="absolute left-3 w-4 h-4 text-gray-400"
+              className="absolute left-3 w-4 h-4 text-gray-400 dark:text-muted/60"
             >
               <path
                 strokeLinecap="round"
@@ -148,22 +148,24 @@ export default function AddToCollectionModal({
                   console.log(`Saved to ${collection.title}`);
                   onClose();
                 }}
-                className="w-full flex items-center justify-between p-3 rounded-2xl text-left font-semibold text-sm text-gray-700 hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all duration-200 hover:scale-[1.02] active:scale-[0.99] cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded-2xl text-left font-semibold text-sm text-gray-700 dark:text-muted hover:bg-gray-50 dark:hover:bg-background border border-transparent hover:border-gray-100 dark:hover:border-border-custom transition-all duration-200 hover:scale-[1.02] active:scale-[0.99] cursor-pointer"
               >
-                <span className="truncate mr-4">{collection.title}</span>
-                <span className="text-xs text-gray-400 font-medium bg-gray-100 px-2 py-0.5 rounded-full flex-shrink-0">
+                <span className="truncate mr-4 text-gray-800 dark:text-main">
+                  {collection.title}
+                </span>
+                <span className="text-xs text-gray-400 dark:text-muted/60 font-medium bg-gray-100 dark:bg-background px-2 py-0.5 rounded-full flex-shrink-0 border border-transparent dark:border-border-custom">
                   {collection.imageCount} imgs
                 </span>
               </button>
             ))
           ) : (
-            <div className="text-center py-6 text-xs font-medium text-gray-400">
+            <div className="text-center py-6 text-xs font-medium text-gray-400 dark:text-muted/50">
               No collections found.
             </div>
           )}
         </div>
 
-        <div className="border-t border-gray-100 pt-3">
+        <div className="border-t border-gray-100 dark:border-border-custom pt-3">
           {!isCreating ? (
             <button
               onClick={() => {
@@ -196,7 +198,7 @@ export default function AddToCollectionModal({
                 placeholder="Collection title..."
                 value={newCollectionTitle}
                 onChange={(e) => setNewCollectionTitle(e.target.value)}
-                className="flex-1 py-2 px-4 bg-gray-50 border border-gray-200 rounded-full text-sm text-gray-700 focus:outline-none focus:bg-white focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f] transition-all"
+                className="flex-1 py-2 px-4 bg-gray-50 dark:bg-background border border-gray-200 dark:border-border-custom rounded-full text-sm text-gray-700 dark:text-main focus:outline-none focus:bg-white dark:focus:bg-background focus:border-[#b72c0f] dark:focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f] transition-all"
               />
               <button
                 type="submit"
@@ -207,7 +209,7 @@ export default function AddToCollectionModal({
               <button
                 type="button"
                 onClick={() => setIsCreating(false)}
-                className="px-3 py-2 text-gray-500 hover:text-gray-700 text-sm font-semibold transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
+                className="px-3 py-2 text-gray-500 dark:text-muted hover:text-gray-700 dark:hover:text-main text-sm font-semibold transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
               >
                 Cancel
               </button>

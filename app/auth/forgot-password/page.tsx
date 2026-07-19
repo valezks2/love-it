@@ -22,13 +22,13 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center bg-white px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md bg-white rounded-3xl border border-gray-100 p-8 shadow-sm md:p-10">
+    <div className="flex min-h-[80vh] items-center justify-center bg-white dark:bg-[#141414] px-4 py-12 sm:px-6 lg:px-8 transition-colors duration-200">
+      <div className="w-full max-w-md bg-white dark:bg-[#1f1f1f] rounded-3xl border border-gray-100 dark:border-zinc-800 p-8 shadow-sm md:p-10">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-[#e5e5e5] md:text-3xl">
             Reset your password
           </h2>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
             {!isSubmitted
               ? "Enter your email address and we'll send you a verification code"
               : "Check your inbox!"}
@@ -40,7 +40,7 @@ export default function ForgotPassword() {
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="email"
-                className="text-xs font-bold uppercase tracking-wider text-gray-400"
+                className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500"
               >
                 Email Address
               </label>
@@ -50,10 +50,10 @@ export default function ForgotPassword() {
                 placeholder="Enter your registered email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`w-full px-4 py-2.5 bg-gray-50 border rounded-full text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white ${
+                className={`w-full px-4 py-2.5 bg-gray-50 dark:bg-[#262626] border rounded-full text-sm text-gray-700 dark:text-zinc-200 transition-all duration-300 focus:outline-none focus:bg-white dark:focus:bg-[#1f1f1f] ${
                   error
                     ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                    : "border-gray-200 focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                    : "border-gray-200 dark:border-zinc-700 focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
                 }`}
               />
               {error && (
@@ -72,7 +72,7 @@ export default function ForgotPassword() {
           </form>
         ) : (
           <div className="text-center space-y-6 animate-fadeIn">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-50 text-green-600">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -88,24 +88,26 @@ export default function ForgotPassword() {
                 />
               </svg>
             </div>
-            <p className="text-sm text-gray-600 leading-relaxed">
+            <p className="text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
               We have sent a secure verification code to{" "}
-              <span className="font-semibold text-gray-900">{email}</span>.
-              Please check your email to complete the reset process.
+              <span className="font-semibold text-gray-900 dark:text-[#e5e5e5]">
+                {email}
+              </span>
+              . Please check your email to complete the reset process.
             </p>
             <button
               onClick={() => setIsSubmitted(false)}
-              className="text-xs font-semibold text-[#b72c0f] hover:underline"
+              className="text-xs font-semibold text-[#b72c0f] hover:underline cursor-pointer"
             >
               Resend code or try another email
             </button>
           </div>
         )}
 
-        <div className="mt-8 border-t border-gray-50 pt-6 text-center">
+        <div className="mt-8 border-t border-gray-50 dark:border-zinc-800 pt-6 text-center">
           <Link
             href="/auth/login"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 transition-colors duration-200 hover:text-[#b72c0f]"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 dark:text-zinc-400 transition-colors duration-200 hover:text-[#b72c0f] dark:hover:text-[#b72c0f]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

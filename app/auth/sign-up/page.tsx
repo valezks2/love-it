@@ -74,13 +74,13 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex min-h-[90vh] items-center justify-center bg-white px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md bg-white rounded-3xl border border-gray-100 p-8 shadow-sm md:p-10">
+    <div className="flex min-h-[90vh] items-center justify-center bg-white dark:bg-[#141414] px-4 py-12 sm:px-6 lg:px-8 transition-colors duration-200">
+      <div className="w-full max-w-md bg-white dark:bg-[#1f1f1f] rounded-3xl border border-gray-100 dark:border-zinc-800 p-8 shadow-sm md:p-10">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-[#e5e5e5] md:text-3xl">
             Create your account
           </h2>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
             Join Love It and start sharing inspiration
           </p>
         </div>
@@ -89,7 +89,7 @@ export default function SignUp() {
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="name"
-              className="text-xs font-bold uppercase tracking-wider text-gray-400"
+              className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500"
             >
               Name
             </label>
@@ -98,12 +98,12 @@ export default function SignUp() {
               id="name"
               placeholder="Enter your name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
               maxLength={10}
-              className={`w-full px-4 py-2.5 bg-gray-50 border rounded-full text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white ${
+              onChange={(e) => setName(e.target.value)}
+              className={`w-full px-4 py-2.5 bg-gray-50 dark:bg-[#262626] border rounded-full text-sm text-gray-700 dark:text-zinc-200 transition-all duration-300 focus:outline-none focus:bg-white dark:focus:bg-[#1f1f1f] ${
                 errors.name
-                  ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                  : "border-gray-200 focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                  ? "border-red-500 focus:border-red-500"
+                  : "border-gray-200 dark:border-zinc-700 focus:border-[#b72c0f]"
               }`}
             />
             {errors.name && (
@@ -116,7 +116,7 @@ export default function SignUp() {
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="username"
-              className="text-xs font-bold uppercase tracking-wider text-gray-400"
+              className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500"
             >
               Username
             </label>
@@ -125,12 +125,12 @@ export default function SignUp() {
               id="username"
               placeholder="Enter your username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
               maxLength={20}
-              className={`w-full px-4 py-2.5 bg-gray-50 border rounded-full text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white ${
+              onChange={(e) => setUsername(e.target.value)}
+              className={`w-full px-4 py-2.5 bg-gray-50 dark:bg-[#262626] border rounded-full text-sm text-gray-700 dark:text-zinc-200 transition-all duration-300 focus:outline-none focus:bg-white dark:focus:bg-[#1f1f1f] ${
                 errors.username
-                  ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                  : "border-gray-200 focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                  ? "border-red-500 focus:border-red-500"
+                  : "border-gray-200 dark:border-zinc-700 focus:border-[#b72c0f]"
               }`}
             />
             {errors.username && (
@@ -143,7 +143,7 @@ export default function SignUp() {
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="email"
-              className="text-xs font-bold uppercase tracking-wider text-gray-400"
+              className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500"
             >
               Email
             </label>
@@ -153,10 +153,10 @@ export default function SignUp() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`w-full px-4 py-2.5 bg-gray-50 border rounded-full text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white ${
+              className={`w-full px-4 py-2.5 bg-gray-50 dark:bg-[#262626] border rounded-full text-sm text-gray-700 dark:text-zinc-200 transition-all duration-300 focus:outline-none focus:bg-white dark:focus:bg-[#1f1f1f] ${
                 errors.email
-                  ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                  : "border-gray-200 focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                  ? "border-red-500 focus:border-red-500"
+                  : "border-gray-200 dark:border-zinc-700 focus:border-[#b72c0f]"
               }`}
             />
             {errors.email && (
@@ -169,7 +169,7 @@ export default function SignUp() {
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="password"
-              className="text-xs font-bold uppercase tracking-wider text-gray-400"
+              className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500"
             >
               Password
             </label>
@@ -180,16 +180,16 @@ export default function SignUp() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`w-full pl-4 pr-12 py-2.5 bg-gray-50 border rounded-full text-sm text-gray-700 transition-all duration-300 focus:outline-none focus:bg-white ${
+                className={`w-full pl-4 pr-12 py-2.5 bg-gray-50 dark:bg-[#262626] border rounded-full text-sm text-gray-700 dark:text-zinc-200 transition-all duration-300 focus:outline-none focus:bg-white dark:focus:bg-[#1f1f1f] ${
                   errors.password
-                    ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                    : "border-gray-200 focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f]"
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-gray-200 dark:border-zinc-700 focus:border-[#b72c0f]"
                 }`}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-3 text-gray-400 hover:text-gray-600 focus:outline-none"
+                className="absolute right-4 top-3 text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:hover:text-zinc-300"
               >
                 {showPassword ? (
                   <svg
@@ -237,19 +237,19 @@ export default function SignUp() {
           </div>
 
           <div className="pt-2 px-1">
-            <p className="text-xs leading-relaxed text-gray-400 text-center">
+            <p className="text-xs leading-relaxed text-gray-400 dark:text-zinc-500 text-center">
               By creating your account, you confirm that you've read and
               accepted our{" "}
               <Link
                 href="/privacy"
-                className="font-semibold text-gray-500 hover:text-[#b72c0f] underline decoration-gray-300 hover:decoration-[#b72c0f] transition-colors"
+                className="font-semibold text-gray-500 dark:text-zinc-400 hover:text-[#b72c0f] underline"
               >
                 Privacy Policy
               </Link>{" "}
               and{" "}
               <Link
                 href="/terms"
-                className="font-semibold text-gray-500 hover:text-[#b72c0f] underline decoration-gray-300 hover:decoration-[#b72c0f] transition-colors"
+                className="font-semibold text-gray-500 dark:text-zinc-400 hover:text-[#b72c0f] underline"
               >
                 Terms of Service
               </Link>
@@ -259,18 +259,18 @@ export default function SignUp() {
 
           <button
             type="submit"
-            className="w-full mt-2 py-2.5 bg-[#b72c0f] border border-[#b72c0f] text-white font-semibold text-sm rounded-full transition-all duration-200 shadow-sm hover:bg-[#96240c] hover:border-[#96240c] hover:shadow-md hover:scale-105 active:scale-95 cursor-pointer"
+            className="w-full mt-2 py-2.5 bg-[#b72c0f] text-white font-semibold text-sm rounded-full transition-all hover:bg-[#96240c] shadow-sm"
           >
             Sign Up
           </button>
         </form>
 
-        <div className="mt-8 border-t border-gray-50 pt-6 text-center">
-          <p className="text-sm text-gray-500">
+        <div className="mt-8 border-t border-gray-50 dark:border-zinc-800 pt-6 text-center">
+          <p className="text-sm text-gray-500 dark:text-zinc-400">
             Already have an account?{" "}
             <Link
               href="/auth/login"
-              className="font-semibold text-[#b72c0f] transition-colors duration-200 hover:underline"
+              className="font-semibold text-[#b72c0f] hover:underline"
             >
               Log In
             </Link>

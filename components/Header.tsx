@@ -149,7 +149,7 @@ export default function Header() {
     switch (type) {
       case "like":
         return (
-          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white shadow-sm ring-2 ring-white">
+          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white shadow-sm ring-2 ring-white dark:ring-nav">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -162,7 +162,7 @@ export default function Header() {
         );
       case "comment":
         return (
-          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-white shadow-sm ring-2 ring-white">
+          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-white shadow-sm ring-2 ring-white dark:ring-nav">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -179,7 +179,7 @@ export default function Header() {
         );
       case "save":
         return (
-          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white shadow-sm ring-2 ring-white">
+          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white shadow-sm ring-2 ring-white dark:ring-nav">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -196,7 +196,7 @@ export default function Header() {
         );
       default:
         return (
-          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-500 text-white shadow-sm ring-2 ring-white">
+          <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-500 text-white shadow-sm ring-2 ring-white dark:ring-nav">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -215,7 +215,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between bg-white px-4 py-3 shadow-sm md:px-8">
+    <header className="sticky top-0 z-50 flex items-center justify-between bg-white dark:bg-nav px-4 py-3 shadow-sm md:px-8 border-b border-transparent dark:border-border-custom transition-colors duration-300">
       <div className="flex items-center gap-6 flex-shrink-0">
         <Link href="/">
           <img
@@ -242,14 +242,14 @@ export default function Header() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={handleSearch}
                     placeholder="Search images, styles..."
-                    className="w-full py-1.5 pl-4 pr-16 bg-gray-50 border border-[#b72c0f] rounded-full text-sm text-gray-700 focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#b72c0f] [&::-webkit-search-cancel-button]:appearance-none"
+                    className="w-full py-1.5 pl-4 pr-16 bg-gray-50 dark:bg-background border border-[#b72c0f] rounded-full text-sm text-gray-700 dark:text-main focus:outline-none focus:bg-white dark:focus:bg-background focus:ring-1 focus:ring-[#b72c0f] [&::-webkit-search-cancel-button]:appearance-none"
                   />
 
                   {searchQuery && (
                     <button
                       type="button"
                       onClick={() => setSearchQuery("")}
-                      className="absolute right-10 top-2.5 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors focus:outline-none"
+                      className="absolute right-10 top-2.5 text-gray-400 hover:text-gray-600 dark:hover:text-main cursor-pointer transition-colors focus:outline-none"
                       aria-label="Clear search"
                     >
                       <svg
@@ -269,7 +269,7 @@ export default function Header() {
                     </button>
                   )}
 
-                  <div className="absolute right-3 top-2.5 flex items-center pl-1.5 border-l border-gray-300 text-gray-400 pointer-events-none">
+                  <div className="absolute right-3 top-2.5 flex items-center pl-1.5 border-l border-gray-300 dark:border-border-custom text-gray-400 pointer-events-none">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -289,7 +289,7 @@ export default function Header() {
               ) : (
                 <button
                   onClick={() => setIsSearchOpen(true)}
-                  className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                  className="p-2 text-gray-600 dark:text-muted hover:bg-gray-100 dark:hover:bg-background rounded-full transition-colors cursor-pointer"
                   aria-label="Open search"
                 >
                   <svg
@@ -313,7 +313,7 @@ export default function Header() {
             <Link
               href="/upload"
               aria-label="Upload content"
-              className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors cursor-pointer flex-shrink-0"
+              className="p-2 text-gray-600 dark:text-muted hover:bg-gray-100 dark:hover:bg-background rounded-full transition-colors cursor-pointer flex-shrink-0"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -334,7 +334,7 @@ export default function Header() {
             <div ref={notificationsRef} className="relative flex-shrink-0">
               <button
                 onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-                className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors cursor-pointer focus:outline-none"
+                className="relative p-2 text-gray-600 dark:text-muted hover:bg-gray-100 dark:hover:bg-background rounded-full transition-colors cursor-pointer focus:outline-none"
                 aria-label="Notifications"
                 aria-expanded={isNotificationsOpen}
               >
@@ -358,9 +358,9 @@ export default function Header() {
               </button>
 
               {isNotificationsOpen && (
-                <div className="absolute right-[-60px] md:right-0 top-full mt-2 w-[calc(100vw-2rem)] sm:w-85 rounded-xl border border-gray-100 bg-white shadow-xl z-50 overflow-hidden transition-all duration-200">
-                  <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3 bg-gray-50/50">
-                    <h3 className="font-bold text-sm text-gray-900">
+                <div className="absolute right-[-60px] md:right-0 top-full mt-2 w-[calc(100vw-2rem)] sm:w-85 rounded-xl border border-gray-100 dark:border-border-custom bg-white dark:bg-nav shadow-xl z-50 overflow-hidden transition-all duration-200">
+                  <div className="flex items-center justify-between border-b border-gray-100 dark:border-border-custom px-4 py-3 bg-gray-50/50 dark:bg-background/20">
+                    <h3 className="font-bold text-sm text-gray-900 dark:text-main">
                       Notifications
                     </h3>
                     {hasUnread && (
@@ -375,14 +375,14 @@ export default function Header() {
 
                   <div className="max-h-80 overflow-y-auto">
                     {notifications.length === 0 ? (
-                      <div className="px-4 py-8 text-center text-sm text-gray-400 flex flex-col items-center gap-2">
+                      <div className="px-4 py-8 text-center text-sm text-gray-400 dark:text-muted flex flex-col items-center gap-2">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
                           strokeWidth={1.5}
                           stroke="currentColor"
-                          className="w-8 h-8 text-gray-300"
+                          className="w-8 h-8 text-gray-300 dark:text-border-custom"
                         >
                           <path
                             strokeLinecap="round"
@@ -393,22 +393,24 @@ export default function Header() {
                         You have no notifications
                       </div>
                     ) : (
-                      <div className="divide-y divide-gray-100">
+                      <div className="divide-y divide-gray-100 dark:divide-border-custom">
                         {notifications.map((notif) => (
                           <div
                             key={notif.id}
                             onClick={() => toggleReadStatus(notif.id)}
-                            className={`flex items-center gap-3 p-3.5 text-left transition-colors hover:bg-gray-50/80 cursor-pointer relative ${
-                              !notif.isRead ? "bg-red-50/15" : ""
+                            className={`flex items-center gap-3 p-3.5 text-left transition-colors hover:bg-gray-50/80 dark:hover:bg-background/40 cursor-pointer relative ${
+                              !notif.isRead
+                                ? "bg-red-50/15 dark:bg-red-950/10"
+                                : ""
                             }`}
                           >
                             <div className="relative flex-shrink-0">
                               <img
                                 src={notif.avatar || "/logo.png"}
                                 alt="User indicator"
-                                className={`w-10 h-10 rounded-full object-cover bg-gray-100 ${
+                                className={`w-10 h-10 rounded-full object-cover bg-gray-100 dark:bg-background ${
                                   notif.type === "system"
-                                    ? "p-1.5 object-contain border border-gray-200"
+                                    ? "p-1.5 object-contain border border-gray-200 dark:border-border-custom"
                                     : ""
                                 }`}
                               />
@@ -417,11 +419,11 @@ export default function Header() {
 
                             <div className="flex-1 min-w-0">
                               <p
-                                className={`text-sm text-gray-700 leading-tight ${!notif.isRead ? "font-medium text-gray-900" : ""}`}
+                                className={`text-sm text-gray-700 dark:text-muted leading-tight ${!notif.isRead ? "font-medium text-gray-900 dark:text-main" : ""}`}
                               >
                                 {notif.text}
                               </p>
-                              <span className="text-[11px] font-medium text-gray-400 block mt-1">
+                              <span className="text-[11px] font-medium text-gray-400 dark:text-muted/60 block mt-1">
                                 {notif.time}
                               </span>
                             </div>
@@ -431,7 +433,7 @@ export default function Header() {
                                 <img
                                   src={notif.imagePreview}
                                   alt="Content preview"
-                                  className="w-10 h-10 rounded-lg object-cover border border-gray-100"
+                                  className="w-10 h-10 rounded-lg object-cover border border-gray-100 dark:border-border-custom"
                                 />
                                 {!notif.isRead && (
                                   <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500"></span>
@@ -448,11 +450,11 @@ export default function Header() {
                     )}
                   </div>
 
-                  <div className="border-t border-gray-100 bg-gray-50/30 p-2 text-center">
+                  <div className="border-t border-gray-100 dark:border-border-custom bg-gray-50/30 dark:bg-background/20 p-2 text-center">
                     <Link
                       href="/notifications"
                       onClick={() => setIsNotificationsOpen(false)}
-                      className="block text-xs font-bold text-gray-500 hover:text-gray-800 transition-colors py-1.5"
+                      className="block text-xs font-bold text-gray-500 dark:text-muted hover:text-gray-800 dark:hover:text-main transition-colors py-1.5"
                     >
                       See all notifications
                     </Link>
@@ -463,61 +465,61 @@ export default function Header() {
 
             <div
               ref={menuRef}
-              className="relative border-l border-gray-200 pl-2 md:pl-4 flex-shrink-0"
+              className="relative border-l border-gray-200 dark:border-border-custom pl-2 md:pl-4 flex-shrink-0"
             >
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-1.5 p-1 rounded-full hover:bg-gray-50 transition-colors cursor-pointer focus:outline-none"
+                className="flex items-center gap-1.5 p-1 rounded-full hover:bg-gray-50 dark:hover:bg-background transition-colors cursor-pointer focus:outline-none"
                 aria-expanded={isOpen}
               >
                 <img
                   src={user.avatar || "/hero.jpg"}
                   alt={`Profile of ${user.name}`}
-                  className="w-8 h-8 rounded-full object-cover border-2 border-gray-100"
+                  className="w-8 h-8 rounded-full object-cover border-2 border-gray-100 dark:border-border-custom"
                 />
                 <span
-                  className={`text-gray-400 text-xs transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                  className={`text-gray-400 dark:text-muted text-xs transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
                 >
                   ▼
                 </span>
               </button>
 
               {isOpen && (
-                <div className="absolute right-0 top-full mt-2 w-52 rounded-md border border-gray-200 bg-white shadow-lg z-50">
+                <div className="absolute right-0 top-full mt-2 w-52 rounded-md border border-gray-200 dark:border-border-custom bg-white dark:bg-nav shadow-lg z-50">
                   <div className="py-1">
-                    <div className="px-4 py-2 border-b border-gray-100">
-                      <p className="text-sm font-semibold text-gray-800 capitalize">
+                    <div className="px-4 py-2 border-b border-gray-100 dark:border-border-custom">
+                      <p className="text-sm font-semibold text-gray-800 dark:text-main capitalize">
                         {user.name}
                       </p>
-                      <p className="text-xs text-gray-500 truncate">
+                      <p className="text-xs text-gray-500 dark:text-muted truncate">
                         {user.email}
                       </p>
                     </div>
 
                     <Link
                       href="/profile"
-                      className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"
+                      className="block px-4 py-2 text-sm text-gray-600 dark:text-muted hover:bg-gray-50 dark:hover:bg-background"
                       onClick={() => setIsOpen(false)}
                     >
                       Profile
                     </Link>
 
-                    <hr className="border-gray-100 my-1" />
+                    <hr className="border-gray-100 dark:border-border-custom my-1" />
 
                     <Link
                       href="/settings"
-                      className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"
+                      className="block px-4 py-2 text-sm text-gray-600 dark:text-muted hover:bg-gray-50 dark:hover:bg-background"
                       onClick={() => setIsOpen(false)}
                     >
                       Settings
                     </Link>
 
-                    <hr className="border-gray-100 my-1" />
+                    <hr className="border-gray-100 dark:border-border-custom my-1" />
 
                     <div className="p-2">
                       <button
                         onClick={handleLogout}
-                        className="w-full rounded-full border border-gray-300 bg-white py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 cursor-pointer"
+                        className="w-full rounded-full border border-gray-300 dark:border-border-custom bg-white dark:bg-background py-1.5 text-sm font-medium text-gray-600 dark:text-muted transition-colors hover:bg-gray-50 dark:hover:bg-nav cursor-pointer"
                       >
                         Log out
                       </button>
@@ -530,7 +532,7 @@ export default function Header() {
         ) : (
           <>
             <Link href="/auth/login">
-              <button className="px-4 py-2 text-sm font-semibold text-gray-600 rounded-full transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 hover:scale-105 active:scale-95 cursor-pointer">
+              <button className="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-muted rounded-full transition-all duration-200 hover:bg-gray-100 dark:hover:bg-background hover:text-gray-900 dark:hover:text-main hover:scale-105 active:scale-95 cursor-pointer">
                 Log In
               </button>
             </Link>

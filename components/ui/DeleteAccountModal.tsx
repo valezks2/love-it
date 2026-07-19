@@ -32,6 +32,7 @@ export default function DeleteAccountModal({
 
   useEffect(() => {
     if (isOpen) {
+      password;
       setPassword("");
       setError(null);
       setIsDeleting(false);
@@ -66,10 +67,10 @@ export default function DeleteAccountModal({
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-gray-100 z-10 flex flex-col gap-4 max-h-[85vh]">
+      <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white dark:bg-nav p-6 shadow-2xl border border-gray-100 dark:border-border-custom z-10 flex flex-col gap-4 max-h-[85vh] transition-colors duration-300">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-red-50 border border-red-100 text-[#b72c0f]">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/40 text-[#b72c0f]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -85,14 +86,14 @@ export default function DeleteAccountModal({
                 />
               </svg>
             </div>
-            <h3 className="text-base font-bold text-gray-900 tracking-tight">
+            <h3 className="text-base font-bold text-gray-900 dark:text-main tracking-tight">
               Delete Account
             </h3>
           </div>
 
           <button
             onClick={onClose}
-            className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
+            className="rounded-full p-1.5 text-gray-400 dark:text-muted hover:bg-gray-100 dark:hover:bg-background hover:text-gray-700 dark:hover:text-main transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -112,17 +113,19 @@ export default function DeleteAccountModal({
         </div>
 
         <div className="space-y-2">
-          <p className="text-sm text-gray-600 leading-relaxed">
+          <p className="text-sm text-gray-600 dark:text-muted leading-relaxed">
             Are you sure you want to delete your account? This action is{" "}
-            <strong className="text-gray-900">permanent</strong> and all your
-            data, collections, and preferences will be lost forever.
+            <strong className="text-gray-900 dark:text-main">permanent</strong>{" "}
+            and all your data, collections, and preferences will be lost
+            forever.
           </p>
         </div>
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="space-y-1.5">
             <label
               htmlFor="confirm-password"
-              className="text-[10px] font-bold uppercase tracking-wider text-gray-400 pl-1"
+              className="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-muted/60 pl-1"
             >
               Enter your password
             </label>
@@ -134,13 +137,13 @@ export default function DeleteAccountModal({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isDeleting}
-                className="w-full py-2.5 pl-4 pr-10 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f] transition-all"
+                className="w-full py-2.5 pl-4 pr-10 bg-gray-50 dark:bg-background border border-gray-200 dark:border-border-custom rounded-2xl text-sm text-gray-700 dark:text-main placeholder-gray-400 dark:placeholder-muted/50 focus:outline-none focus:bg-white dark:focus:bg-background focus:border-[#b72c0f] dark:focus:border-[#b72c0f] focus:ring-1 focus:ring-[#b72c0f] transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 disabled={isDeleting}
-                className="absolute right-3 p-1 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+                className="absolute right-3 p-1 text-gray-400 dark:text-muted hover:text-gray-600 dark:hover:text-main transition-colors cursor-pointer"
               >
                 {showPassword ? (
                   <svg
@@ -187,12 +190,12 @@ export default function DeleteAccountModal({
             )}
           </div>
 
-          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100">
+          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100 dark:border-border-custom">
             <button
               type="button"
               onClick={onClose}
               disabled={isDeleting}
-              className="px-4 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 hover:bg-gray-50 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
+              className="px-4 py-2 text-sm font-bold text-gray-500 dark:text-muted hover:text-gray-700 dark:hover:text-main hover:bg-gray-50 dark:hover:bg-background rounded-full transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
             >
               Cancel
             </button>

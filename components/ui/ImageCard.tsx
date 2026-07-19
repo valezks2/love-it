@@ -30,7 +30,7 @@ export default function ImageCard({
   const uniqueId = `${sectionPrefix}-${item.id}`;
 
   return (
-    <div className="group relative aspect-square w-full overflow-hidden bg-gray-50 rounded-xl border border-gray-100">
+    <div className="group relative aspect-square w-full overflow-hidden bg-gray-50 dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-800">
       <Link href={`/post/${item.id}`} className="block h-full w-full">
         <img
           src={item.src}
@@ -52,7 +52,7 @@ export default function ImageCard({
           className={`flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer pointer-events-auto ${
             isLiked
               ? "bg-[#b72c0f] text-white"
-              : "bg-white/95 text-gray-700 hover:bg-white hover:text-[#b72c0f]"
+              : "bg-white/95 dark:bg-zinc-800/90 text-gray-700 dark:text-zinc-300 hover:bg-white dark:hover:bg-zinc-700 hover:text-[#b72c0f] dark:hover:text-[#ff4d29]"
           }`}
         >
           <svg
@@ -70,10 +70,10 @@ export default function ImageCard({
             e.preventDefault();
             onOpenCollectionModal(item);
           }}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-gray-700 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-[#b72c0f] hover:scale-110 active:scale-90 cursor-pointer pointer-events-auto"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/95 dark:bg-zinc-800/90 text-gray-700 dark:text-zinc-300 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white dark:hover:bg-zinc-700 hover:text-[#b72c0f] dark:hover:text-[#ff4d29] hover:scale-110 active:scale-90 cursor-pointer pointer-events-auto"
         >
           <svg
-            xmlns="http://www.w3.org/2000/xl"
+            xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={2}

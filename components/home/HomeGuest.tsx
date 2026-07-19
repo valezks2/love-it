@@ -78,24 +78,24 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-white font-sans antialiased relative">
+    <main className="min-h-screen bg-white dark:bg-[#141414] text-gray-900 dark:text-[#e5e5e5] font-sans antialiased relative transition-colors duration-200">
       <section
         className="relative flex h-[50vh] min-h-[350px] items-center justify-center bg-cover bg-center text-white"
         style={{ backgroundImage: "url('/hero.jpg')" }}
       >
-        <div className="absolute inset-0 bg-black/35 z-0" />
+        <div className="absolute inset-0 bg-black/40 z-0" />
 
         <div className="relative z-10 text-center px-4 max-w-2xl flex flex-col items-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight drop-shadow-sm">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight drop-shadow-sm text-white">
             Find what you love!
           </h1>
-          <p className="mt-3 text-base md:text-lg text-gray-200 font-medium drop-shadow-sm">
+          <p className="mt-3 text-base md:text-lg text-gray-200 dark:text-zinc-200 font-medium drop-shadow-sm">
             Explore and collect your daily dose of inspiration.
           </p>
 
           <Link
             href="/auth/sign-up"
-            className="mt-6 inline-block px-6 py-2.5 rounded-full bg-white/90 text-gray-900 font-semibold text-sm shadow-md backdrop-blur-sm transition-all duration-200 hover:bg-white hover:scale-105 active:scale-95"
+            className="mt-6 inline-block px-6 py-2.5 rounded-full bg-white/90 text-gray-900 dark:bg-zinc-100 dark:text-zinc-950 font-semibold text-sm shadow-md backdrop-blur-sm transition-all duration-200 hover:bg-white hover:scale-105 active:scale-95"
           >
             Join Love It
           </Link>
@@ -103,8 +103,8 @@ export default function HomePage() {
       </section>
 
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
-          <h2 className="text-xl font-bold tracking-tight text-gray-800 md:text-2xl">
+        <div className="mb-6 flex items-center justify-between border-b border-gray-100 dark:border-zinc-900 pb-4">
+          <h2 className="text-xl font-bold tracking-tight text-gray-800 dark:text-[#e5e5e5] md:text-2xl">
             Top Today Images
           </h2>
         </div>

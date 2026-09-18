@@ -1,5 +1,5 @@
 "use client";
-import ImageCard, { GalleryItem } from "@/components/ui/ImageCard";
+import ImageCard, { GalleryItem } from "@/components/cards/ImageCard";
 
 interface ImageGridProps {
   items: GalleryItem[];

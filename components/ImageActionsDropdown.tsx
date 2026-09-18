@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import ShareModal from "@/components/ui/ShareModal";
+import ShareModal from "@/components/modals/ShareModal";
 
 interface ImageItem {
   id: number;

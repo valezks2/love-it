@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import DeleteAccountModal from "@/components/ui/DeleteAccountModal";
+import DeleteAccountModal from "@/components/modals/DeleteAccountModal";
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("Account");

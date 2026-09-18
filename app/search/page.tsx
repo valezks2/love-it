@@ -2,13 +2,13 @@
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import AddToCollectionModal from "@/components/ui/AddToCollectionModal";
+import AddToCollectionModal from "@/components/modals/AddToCollectionModal";
 import Toast from "@/components/ui/Toast";
-import ImageGrid from "@/components/ui/ImageGrid";
+import ImageGrid from "@/components/grids/ImageGrid";
 import CollectionsGrid, {
   CollectionItem,
-} from "@/components/ui/CollectionsGrid";
-import { GalleryItem } from "@/components/ui/ImageCard";
+} from "@/components/grids/CollectionsGrid";
+import { GalleryItem } from "@/components/cards/ImageCard";
 
 interface UserItem {
   id: number;

@@ -2,10 +2,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import AddToCollectionModal from "@/components/ui/AddToCollectionModal";
+import AddToCollectionModal from "@/components/modals/AddToCollectionModal";
 import Toast from "@/components/ui/Toast";
-import ImageGrid from "@/components/ui/ImageGrid";
-import { GalleryItem } from "@/components/ui/ImageCard";
+import ImageGrid from "@/components/grids/ImageGrid";
+import { GalleryItem } from "@/components/cards/ImageCard";
 
 export default function HomePage() {
   const router = useRouter();

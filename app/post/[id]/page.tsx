@@ -3,8 +3,8 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import Toast from "@/components/ui/Toast";
-import ImageActionsDropdown from "@/components/ui/ImageActionsDropdown";
-import AddToCollectionModal from "@/components/ui/AddToCollectionModal";
+import ImageActionsDropdown from "@/components/ImageActionsDropdown";
+import AddToCollectionModal from "@/components/modals/AddToCollectionModal";
 
 const ITEMS_DB = [
   {

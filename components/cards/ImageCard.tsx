@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import ImageActionsDropdown from "@/components/ui/ImageActionsDropdown";
+import ImageActionsDropdown from "@/components/ImageActionsDropdown";
 
 export interface GalleryItem {
   id: number;

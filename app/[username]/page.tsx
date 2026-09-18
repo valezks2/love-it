@@ -1,6 +1,6 @@
 "use client";
-import ProfileWrapper from "@/components/ui/ProfileWrapper";
-import CollectionsGrid from "@/components/ui/CollectionsGrid";
+import ProfileWrapper from "@/components/ProfileWrapper";
+import CollectionsGrid from "@/components/grids/CollectionsGrid";
 
 export default function ProfilePage() {
   return (

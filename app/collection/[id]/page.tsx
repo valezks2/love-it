@@ -2,11 +2,11 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import AddToCollectionModal from "@/components/ui/AddToCollectionModal";
-import UpdateModal from "@/components/ui/UpdateCollectionModal";
+import AddToCollectionModal from "@/components/modals/AddToCollectionModal";
+import UpdateModal from "@/components/modals/UpdateCollectionModal";
 import Toast from "@/components/ui/Toast";
-import ImageGrid from "@/components/ui/ImageGrid";
-import { GalleryItem } from "@/components/ui/ImageCard";
+import ImageGrid from "@/components/grids/ImageGrid";
+import { GalleryItem } from "@/components/cards/ImageCard";
 
 const COLLECTIONS_DB = [
   {

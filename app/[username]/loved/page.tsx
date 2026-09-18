@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import ProfileWrapper from "@/components/ui/ProfileWrapper";
-import AddToCollectionModal from "@/components/ui/AddToCollectionModal";
+import ProfileWrapper from "@/components/ProfileWrapper";
+import AddToCollectionModal from "@/components/modals/AddToCollectionModal";
 import Toast from "@/components/ui/Toast";
-import ImageGrid from "@/components/ui/ImageGrid";
-import { GalleryItem } from "@/components/ui/ImageCard";
+import ImageGrid from "@/components/grids/ImageGrid";
+import { GalleryItem } from "@/components/cards/ImageCard";
 
 export default function LovedPage() {
   const baseItems: GalleryItem[] = [

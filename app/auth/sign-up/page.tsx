@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, type SubmitEvent } from "react";
 import Link from "next/link";
 
 export default function SignUp() {
@@ -15,7 +15,7 @@ export default function SignUp() {
     password?: string;
   }>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors: typeof errors = {};

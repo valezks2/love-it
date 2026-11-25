@@ -1,6 +1,5 @@
 "use client";
-
-import { useState } from "react";
+import { useState, type SubmitEvent } from "react";
 import Link from "next/link";
 
 export default function Login() {
@@ -12,7 +11,7 @@ export default function Login() {
     {},
   );
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors: typeof errors = {};

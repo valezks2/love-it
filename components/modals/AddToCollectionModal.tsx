@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, type SubmitEvent } from "react";
 import Image from "next/image";
 
 interface Collection {
@@ -53,7 +53,7 @@ export default function AddToCollectionModal({
 
   if (!isOpen) return null;
 
-  const handleCreateCollection = (e: React.FormEvent) => {
+  const handleCreateCollection = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newCollectionTitle.trim()) return;
 

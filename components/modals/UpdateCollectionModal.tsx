@@ -1,12 +1,11 @@
 "use client";
-
 import {
   useState,
   useEffect,
   useRef,
   ChangeEvent,
   DragEvent,
-  FormEvent,
+  type SubmitEvent,
 } from "react";
 import Image from "next/image";
 
@@ -101,7 +100,7 @@ export default function UpdateModal({
     if (file) processFile(file);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const currentErrors: typeof errors = {};

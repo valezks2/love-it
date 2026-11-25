@@ -1,6 +1,5 @@
 "use client";
-
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, type SubmitEvent } from "react";
 
 interface DeleteAccountModalProps {
   isOpen: boolean;
@@ -42,7 +41,7 @@ export default function DeleteAccountModal({
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
 

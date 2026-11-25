@@ -1,6 +1,5 @@
 "use client";
-
-import { useState } from "react";
+import { useState, type SubmitEvent } from "react";
 import Link from "next/link";
 
 export default function ForgotPassword() {
@@ -8,7 +7,7 @@ export default function ForgotPassword() {
   const [error, setError] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!email) {

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type SubmitEvent } from "react";
 import DeleteAccountModal from "@/components/modals/DeleteAccountModal";
 
 export default function SettingsPage() {
@@ -77,7 +77,7 @@ export default function SettingsPage() {
     }
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors: typeof errors = {};

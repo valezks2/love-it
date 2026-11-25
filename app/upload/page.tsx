@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, ChangeEvent, FormEvent } from "react";
+import { useState, useRef, ChangeEvent, type SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
 import Toast from "@/components/ui/Toast";
 
@@ -110,7 +110,7 @@ export default function UploadPage() {
     setErrors((prev) => ({ ...prev, collection: undefined }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const currentErrors: typeof errors = {};

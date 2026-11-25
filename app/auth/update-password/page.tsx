@@ -1,6 +1,5 @@
 "use client";
-
-import { useState } from "react";
+import { useState, type SubmitEvent } from "react";
 import Link from "next/link";
 
 export default function UpdatePassword() {
@@ -14,7 +13,7 @@ export default function UpdatePassword() {
   }>({});
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors: typeof errors = {};
